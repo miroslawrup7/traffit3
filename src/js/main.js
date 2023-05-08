@@ -1415,3 +1415,15 @@ async function readConfigFilter() {
 }
 
 readConfigFilter();
+
+// change RECORDS QUANTITY ON PAGE //////////////////////////////////////////////////
+recordsOnPageLoc.addEventListener("change", (e) => {
+    recordsOnPage = parseInt(e.target.value);
+
+    filtersON
+        ? createRecordBoxes(filteredRecordsArray_11, 0, recordsOnPage)
+        : createRecordBoxes(allRecordsArray, 0, recordsOnPage);
+    setPages(recordsNumber);
+
+    // setParentIframeHeight();
+});
