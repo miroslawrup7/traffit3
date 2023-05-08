@@ -21,6 +21,7 @@ const jobFormLoc = document.querySelector(".employment-form ul");
 const jobTypeLoc = document.querySelector(".working-hours ul"); 
 const langLoc = document.querySelector(".language ul");
 const citiesLoc = document.querySelector(".city ul");
+const resultsLoc = document.querySelector(".results");
 
 cityListBtnLoc.addEventListener("click", () => {
     cityListLoc.classList.toggle("expand");
@@ -67,14 +68,153 @@ let filterListMaxHeight = 0;
 
 recordsOnPageLoc.value = recordsOnPage;
 
+// create RECORDS BOXES ///////////////////////////////////////////////
+const createRecordBoxes = (recordsArray, firstRecordNumber, recordsOnPage) => {
+    resultsLoc.replaceChildren();
+
+    for (i = firstRecordNumber; i < recordsOnPage; i++) {
+        // colouring of records by type of recruitment
+
+        if (recordsArray[i]) {
+            let borderColorClass = "";
+            let textColorClass = "";
+
+            if (!filterConfigData.recruitmentType_colorOnly.length) {
+                if (recordsArray[i].recruitmentType === "PT") {
+                    borderColorClass = "pt-border";
+                    textColorClass = "pt-text";
+                }
+                if (recordsArray[i].recruitmentType === "RS") {
+                    borderColorClass = "rs-border";
+                    textColorClass = "rs-text";
+                }
+                if (recordsArray[i].recruitmentType === "WEW") {
+                    borderColorClass = "wew-border";
+                    textColorClass = "wew-text";
+                }
+            } else {
+                if (
+                    filterConfigData.recruitmentType_colorOnly.indexOf("PT") !==
+                    -1
+                ) {
+                    if (recordsArray[i].recruitmentType === "PT") {
+                        borderColorClass = "pt-border";
+                        textColorClass = "pt-text";
+                    }
+                }
+
+                if (
+                    filterConfigData.recruitmentType_colorOnly.indexOf("RS") !==
+                    -1
+                ) {
+                    if (recordsArray[i].recruitmentType === "RS") {
+                        borderColorClass = "rs-border";
+                        textColorClass = "rs-text";
+                    }
+                }
+
+                if (
+                    filterConfigData.recruitmentType_colorOnly.indexOf(
+                        "WEW"
+                    ) !== -1
+                ) {
+                    if (recordsArray[i].recruitmentType === "WEW") {
+                        borderColorClass = "wew-border";
+                        textColorClass = "wew-text";
+                    }
+                }
+            }
+
+            let formaZatrudnienia = "";
+
+            if (recordsArray[i].jobForm) {
+                recordsArray[i].jobForm.forEach(function (elem) {
+                    formaZatrudnienia =
+                        formaZatrudnienia + "<p>" + elem + "</p>";
+                });
+            }
+
+            resultsLoc.insertAdjacentHTML(
+                "beforeend",
+                `<a href="${
+                    recordsArray[i].url
+                }" target="_blank"><div class="result ${borderColorClass}">
+            <div class="top">
+              
+                    <div class="lang"><p>${recordsArray[i].lang}</p></div>
+                    <div class="branche-name">
+                        <div class="branche">${
+                            recordsArray[i].branche
+                                ? recordsArray[i].branche
+                                : ""
+                        }</div>
+                        <div class="name ${textColorClass}">${
+                    recordsArray[i].name
+                }</div>
+                   
+                </div>
+              
+            </div>
+
+            <div class="bottom">
+                <div class="city-container">
+                    <div class="city"><img src="./img/location_dot.svg">${
+                        recordsArray[i].city
+                    }</div>
+                    </div>
+                    <div class="details-container">
+                    ${
+                        recordsArray[i].jobType
+                            ? "<div class='jobtype'>" +
+                              recordsArray[i].jobType +
+                              "</div>"
+                            : ""
+                    }
+                    ${
+                        recordsArray[i].visibleRate
+                            ? recordsArray[i].salaryFrom &&
+                              recordsArray[i].salaryTo
+                                ? "<div class='salary'>" +
+                                  recordsArray[i].salaryFrom +
+                                  " - " +
+                                  recordsArray[i].salaryTo +
+                                  "</div>"
+                                : ""
+                            : ""
+                    }
+                    ${
+                        recordsArray[i].remote
+                            ? "<div class='remote'>zdalna</div>"
+                            : ""
+                    }
+                    ${
+                        recordsArray[i].relocation
+                            ? "<div class='relocation'>relocation</div>"
+                            : ""
+                    }
+                    <div class="employmentform">${formaZatrudnienia}</div>
+                    </div>
+                </div>
+                   
+                </div>
+          
+
+        </div></a>`
+            );
+        }
+    }
+};
+
 // filter the data to create FILTERED OBJECTS ARRAY ///////////////////////////////
 const createFilteredRecordsArray = () => {
-    const branchesChildrenLoc = document.querySelectorAll(".branches option");
-    const jobFormChildrenLoc = document.querySelectorAll(".job-form option");
-    const jobTypeChildrenLoc = document.querySelectorAll(".job-type option");
-    const langChildrenLoc = document.querySelectorAll(".lang option");
-    const countriesChildrenLoc = document.querySelectorAll(".countries option");
-    const citiesChildrenLoc = document.querySelectorAll(".cities option");
+    const branchesChildrenLoc = branchesLoc.querySelectorAll("li input");
+    // const jobFormChildrenLoc = document.querySelectorAll(".job-form option");
+    // const jobTypeChildrenLoc = document.querySelectorAll(".job-type option");
+    // const langChildrenLoc = document.querySelectorAll(".lang option");
+    // const countriesChildrenLoc = document.querySelectorAll(".countries option");
+    // const citiesChildrenLoc = document.querySelectorAll(".cities option");
+
+    console.log(branchesChildrenLoc)
 
     let filteredRecordsArray = allRecordsArray;
 
@@ -82,20 +222,19 @@ const createFilteredRecordsArray = () => {
 
     let selectedBranches = [];
 
-    if (
-        filterConfigData.branche_filter.length 
-        // && !filterConfigData.branche_visible
-    ) {
+    if (filterConfigData.branche_filter.length) {
         selectedBranches = filterConfigData.branche_filter;
     } else {
         selectedBranches = Array.from(branchesChildrenLoc)
             .filter(function (elem) {
-                return elem.selected;
+                return elem.checked;
             })
             .map(function (elem) {
                 return elem.value;
             });
     }
+
+    console.log(selectedBranches)
 
     let filteredRecordsArray_1 = [];
 
@@ -119,399 +258,401 @@ const createFilteredRecordsArray = () => {
 
     // selectedJobForms ////////////////
 
-    let selectedJobForms = Array.from(jobFormChildrenLoc)
-        .filter(function (elem) {
-            return elem.selected;
-        })
-        .map(function (elem) {
-            return elem.value;
-        });
+    // let selectedJobForms = Array.from(jobFormChildrenLoc)
+    //     .filter(function (elem) {
+    //         return elem.selected;
+    //     })
+    //     .map(function (elem) {
+    //         return elem.value;
+    //     });
 
-    let filteredRecordsArray_2 = [];
+    // let filteredRecordsArray_2 = [];
 
-    if (selectedJobForms.length !== 0) {
-        filteredRecordsArray_1.forEach((el, index) => {
-            if (el.jobForm) {
-                let addFlag = false;
+    // if (selectedJobForms.length !== 0) {
+    //     filteredRecordsArray_1.forEach((el, index) => {
+    //         if (el.jobForm) {
+    //             let addFlag = false;
 
-                selectedJobForms.forEach((selectedFiltr) => {
-                    if (el.jobForm.indexOf(selectedFiltr) !== -1) {
-                        addFlag = true;
-                    }
-                });
+    //             selectedJobForms.forEach((selectedFiltr) => {
+    //                 if (el.jobForm.indexOf(selectedFiltr) !== -1) {
+    //                     addFlag = true;
+    //                 }
+    //             });
 
-                if (addFlag) {
-                    filteredRecordsArray_2.push(el);
-                }
-            }
-        });
-    } else {
-        filteredRecordsArray_2 = filteredRecordsArray_1;
-    }
+    //             if (addFlag) {
+    //                 filteredRecordsArray_2.push(el);
+    //             }
+    //         }
+    //     });
+    // } else {
+    //     filteredRecordsArray_2 = filteredRecordsArray_1;
+    // }
 
-    // selectedJobTypes////////////////
+    // // selectedJobTypes////////////////
 
-    let selectedjobTypes = Array.from(jobTypeChildrenLoc)
-        .filter(function (elem) {
-            return elem.selected;
-        })
-        .map(function (elem) {
-            return elem.value;
-        });
+    // let selectedjobTypes = Array.from(jobTypeChildrenLoc)
+    //     .filter(function (elem) {
+    //         return elem.selected;
+    //     })
+    //     .map(function (elem) {
+    //         return elem.value;
+    //     });
 
-    let filteredRecordsArray_3 = [];
+    // let filteredRecordsArray_3 = [];
 
-    if (selectedjobTypes.length !== 0) {
-        filteredRecordsArray_2.forEach((el, index) => {
-            let addFlag = false;
+    // if (selectedjobTypes.length !== 0) {
+    //     filteredRecordsArray_2.forEach((el, index) => {
+    //         let addFlag = false;
 
-            selectedjobTypes.forEach((selectedFiltr) => {
-                if (el.jobType === selectedFiltr) {
-                    addFlag = true;
-                }
-            });
+    //         selectedjobTypes.forEach((selectedFiltr) => {
+    //             if (el.jobType === selectedFiltr) {
+    //                 addFlag = true;
+    //             }
+    //         });
 
-            if (addFlag) {
-                filteredRecordsArray_3.push(el);
-            }
-        });
-    } else {
-        filteredRecordsArray_3 = filteredRecordsArray_2;
-    }
+    //         if (addFlag) {
+    //             filteredRecordsArray_3.push(el);
+    //         }
+    //     });
+    // } else {
+    //     filteredRecordsArray_3 = filteredRecordsArray_2;
+    // }
 
-    // selectedLangs ////////////////
-    let selectedLangs = [];
+    // // selectedLangs ////////////////
+    // let selectedLangs = [];
 
-    if (
-        filterConfigData.language_filter.length 
-        // && !filterConfigData.language_visible
-    ) {
-        selectedLangs = filterConfigData.language_filter;
-    } else {
-        selectedLangs = Array.from(langChildrenLoc)
-            .filter(function (elem) {
-                return elem.selected;
-            })
-            .map(function (elem) {
-                return elem.value;
-            });
-    }
+    // if (
+    //     filterConfigData.language_filter.length 
+    //     // && !filterConfigData.language_visible
+    // ) {
+    //     selectedLangs = filterConfigData.language_filter;
+    // } else {
+    //     selectedLangs = Array.from(langChildrenLoc)
+    //         .filter(function (elem) {
+    //             return elem.selected;
+    //         })
+    //         .map(function (elem) {
+    //             return elem.value;
+    //         });
+    // }
 
-    let filteredRecordsArray_4 = [];
+    // let filteredRecordsArray_4 = [];
 
-    if (selectedLangs.length !== 0) {
-        filteredRecordsArray_3.forEach((el, index) => {
-            let addFlag = false;
+    // if (selectedLangs.length !== 0) {
+    //     filteredRecordsArray_3.forEach((el, index) => {
+    //         let addFlag = false;
 
-            selectedLangs.forEach((selectedFiltr) => {
-                if (el.lang === selectedFiltr) {
-                    addFlag = true;
-                }
-            });
+    //         selectedLangs.forEach((selectedFiltr) => {
+    //             if (el.lang === selectedFiltr) {
+    //                 addFlag = true;
+    //             }
+    //         });
 
-            if (addFlag) {
-                filteredRecordsArray_4.push(el);
-            }
-        });
-    } else {
-        filteredRecordsArray_4 = filteredRecordsArray_3;
-    }
+    //         if (addFlag) {
+    //             filteredRecordsArray_4.push(el);
+    //         }
+    //     });
+    // } else {
+    //     filteredRecordsArray_4 = filteredRecordsArray_3;
+    // }
 
-    // selectedSalary ////////////////
+    // // selectedSalary ////////////////
 
-    let selectedValOne;
-    let selectedValTwo;
-    if (salaryMarkLoc.checked) {
-        selectedValOne = parseInt(displayValOne.innerText);
-        selectedValTwo = parseInt(displayValTwo.innerText);
-    }
+    // let selectedValOne;
+    // let selectedValTwo;
+    // if (salaryMarkLoc.checked) {
+    //     selectedValOne = parseInt(displayValOne.innerText);
+    //     selectedValTwo = parseInt(displayValTwo.innerText);
+    // }
 
-    let filteredRecordsArray_5 = [];
+    // let filteredRecordsArray_5 = [];
 
-    if (salaryMarkLoc.checked) {
-        filteredRecordsArray_4.forEach((el, index) => {
-            let addFlag = false;
+    // if (salaryMarkLoc.checked) {
+    //     filteredRecordsArray_4.forEach((el, index) => {
+    //         let addFlag = false;
 
-            if (el.visibleRate) {
-                if (el.salaryTo && el.salaryFrom) {
-                    if (
-                        el.salaryTo >= selectedValOne &&
-                        el.salaryFrom <= selectedValTwo
-                    ) {
-                        addFlag = true;
-                    }
-                }
-                if (el.salaryTo && !el.salaryFrom) {
-                    if (el.salaryTo >= selectedValOne) {
-                        addFlag = true;
-                    }
-                }
-                if (!el.salaryTo && el.salaryFrom) {
-                    if (el.salaryFrom <= selectedValTwo) {
-                        addFlag = true;
-                    }
-                }
-            }
+    //         if (el.visibleRate) {
+    //             if (el.salaryTo && el.salaryFrom) {
+    //                 if (
+    //                     el.salaryTo >= selectedValOne &&
+    //                     el.salaryFrom <= selectedValTwo
+    //                 ) {
+    //                     addFlag = true;
+    //                 }
+    //             }
+    //             if (el.salaryTo && !el.salaryFrom) {
+    //                 if (el.salaryTo >= selectedValOne) {
+    //                     addFlag = true;
+    //                 }
+    //             }
+    //             if (!el.salaryTo && el.salaryFrom) {
+    //                 if (el.salaryFrom <= selectedValTwo) {
+    //                     addFlag = true;
+    //                 }
+    //             }
+    //         }
 
-            if (addFlag) {
-                filteredRecordsArray_5.push(el);
-            }
-        });
-    } else {
-        filteredRecordsArray_5 = filteredRecordsArray_4;
-    }
+    //         if (addFlag) {
+    //             filteredRecordsArray_5.push(el);
+    //         }
+    //     });
+    // } else {
+    //     filteredRecordsArray_5 = filteredRecordsArray_4;
+    // }
 
-    // selectedCountry ////////////////
+    // // selectedCountry ////////////////
 
-    let selectedCountry = [];
+    // let selectedCountry = [];
 
-    if (
-        filterConfigData.location_country_filter.length 
-        // && !filterConfigData.location_visible
-    ) {
-        selectedCountry = filterConfigData.location_country_filter;
-    } else {
-        if (locationMarkLoc.checked) {
-            selectedCountry = Array.from(countriesChildrenLoc)
-                .filter(function (elem) {
-                    if (elem.value) {
-                        return elem.selected;
-                    }
-                })
-                .map(function (elem) {
-                    if (elem.value) {
-                        return elem.value;
-                    }
-                });
-        }
-    }
+    // if (
+    //     filterConfigData.location_country_filter.length 
+    //     // && !filterConfigData.location_visible
+    // ) {
+    //     selectedCountry = filterConfigData.location_country_filter;
+    // } else {
+    //     if (locationMarkLoc.checked) {
+    //         selectedCountry = Array.from(countriesChildrenLoc)
+    //             .filter(function (elem) {
+    //                 if (elem.value) {
+    //                     return elem.selected;
+    //                 }
+    //             })
+    //             .map(function (elem) {
+    //                 if (elem.value) {
+    //                     return elem.value;
+    //                 }
+    //             });
+    //     }
+    // }
 
-    let filteredRecordsArray_6 = [];
+    // let filteredRecordsArray_6 = [];
 
-    if (
-        locationMarkLoc.checked ||
-        (filterConfigData.location_country_filter.length 
-            // && !filterConfigData.location_visible
-            )
-    ) {
-        if (selectedCountry.length) {
-            filteredRecordsArray_5.forEach((el, index) => {
-                let addFlag = false;
+    // if (
+    //     locationMarkLoc.checked ||
+    //     (filterConfigData.location_country_filter.length 
+    //         // && !filterConfigData.location_visible
+    //         )
+    // ) {
+    //     if (selectedCountry.length) {
+    //         filteredRecordsArray_5.forEach((el, index) => {
+    //             let addFlag = false;
 
-                selectedCountry.forEach((selectedFiltr) => {
-                    if (el.country === selectedFiltr) {
-                        addFlag = true;
-                    }
-                });
+    //             selectedCountry.forEach((selectedFiltr) => {
+    //                 if (el.country === selectedFiltr) {
+    //                     addFlag = true;
+    //                 }
+    //             });
 
-                if (addFlag) {
-                    filteredRecordsArray_6.push(el);
-                }
-            });
-        } else {
-            filteredRecordsArray_6 = filteredRecordsArray_5;
-        }
-    } else {
-        filteredRecordsArray_6 = filteredRecordsArray_5;
-    }
+    //             if (addFlag) {
+    //                 filteredRecordsArray_6.push(el);
+    //             }
+    //         });
+    //     } else {
+    //         filteredRecordsArray_6 = filteredRecordsArray_5;
+    //     }
+    // } else {
+    //     filteredRecordsArray_6 = filteredRecordsArray_5;
+    // }
 
-    // selectedCity & selectedDistance ////////////////
+    // // selectedCity & selectedDistance ////////////////
 
-    let selectedCity = [];
+    // let selectedCity = [];
 
-    if (
-        filterConfigData.location_city_filter.length
-        // && !filterConfigData.location_visible
-    ) {
-        selectedCity = filterConfigData.location_city_filter;
-    } else {
-        if (locationMarkLoc.checked) {
-            selectedCity = Array.from(citiesChildrenLoc)
-                .filter(function (elem) {
-                    if (elem.value) {
-                        return elem.selected;
-                    }
-                })
-                .map(function (elem) {
-                    if (elem.value) {
-                        return elem.value;
-                    }
-                });
-        }
-    }
+    // if (
+    //     filterConfigData.location_city_filter.length
+    //     // && !filterConfigData.location_visible
+    // ) {
+    //     selectedCity = filterConfigData.location_city_filter;
+    // } else {
+    //     if (locationMarkLoc.checked) {
+    //         selectedCity = Array.from(citiesChildrenLoc)
+    //             .filter(function (elem) {
+    //                 if (elem.value) {
+    //                     return elem.selected;
+    //                 }
+    //             })
+    //             .map(function (elem) {
+    //                 if (elem.value) {
+    //                     return elem.value;
+    //                 }
+    //             });
+    //     }
+    // }
 
-    let filteredRecordsArray_7 = [];
+    // let filteredRecordsArray_7 = [];
 
-    if (
-        locationMarkLoc.checked ||
-        (filterConfigData.location_city_filter.length 
-            // && !filterConfigData.location_visible
-            )
-    ) {
-        if (selectedCity.length) {
-            let selectedDistance = 0;
+    // if (
+    //     locationMarkLoc.checked ||
+    //     (filterConfigData.location_city_filter.length 
+    //         // && !filterConfigData.location_visible
+    //         )
+    // ) {
+    //     if (selectedCity.length) {
+    //         let selectedDistance = 0;
 
-            selectedDistance = parseInt(locationDotLoc.value);
+    //         selectedDistance = parseInt(locationDotLoc.value);
 
-            let lati;
-            let longi;
-            let min_lati;
-            let max_lati;
-            let min_longi;
-            let max_longi;
+    //         let lati;
+    //         let longi;
+    //         let min_lati;
+    //         let max_lati;
+    //         let min_longi;
+    //         let max_longi;
 
-            filteredRecordsArray_6.forEach((el, index) => {
-                if (el.city === selectedCity[0]) {
-                    lati = el.lati;
-                    longi = el.longi;
+    //         filteredRecordsArray_6.forEach((el, index) => {
+    //             if (el.city === selectedCity[0]) {
+    //                 lati = el.lati;
+    //                 longi = el.longi;
 
-                    min_lati = lati - selectedDistance * 0.009044;
-                    max_lati = lati + selectedDistance * 0.009044;
-                    min_longi =
-                        longi -
-                        (selectedDistance * 0.0089831) /
-                            Math.cos((lati * Math.PI) / 180);
-                    max_longi =
-                        longi +
-                        (selectedDistance * 0.0089831) /
-                            Math.cos((lati * Math.PI) / 180);
-                }
-            });
+    //                 min_lati = lati - selectedDistance * 0.009044;
+    //                 max_lati = lati + selectedDistance * 0.009044;
+    //                 min_longi =
+    //                     longi -
+    //                     (selectedDistance * 0.0089831) /
+    //                         Math.cos((lati * Math.PI) / 180);
+    //                 max_longi =
+    //                     longi +
+    //                     (selectedDistance * 0.0089831) /
+    //                         Math.cos((lati * Math.PI) / 180);
+    //             }
+    //         });
 
-            filteredRecordsArray_6.forEach((el, index) => {
-                let addFlag = false;
+    //         filteredRecordsArray_6.forEach((el, index) => {
+    //             let addFlag = false;
 
-                if (
-                    el.lati <= max_lati &&
-                    el.lati >= min_lati &&
-                    el.longi <= max_longi &&
-                    el.longi >= min_longi
-                ) {
-                    addFlag = true;
-                }
+    //             if (
+    //                 el.lati <= max_lati &&
+    //                 el.lati >= min_lati &&
+    //                 el.longi <= max_longi &&
+    //                 el.longi >= min_longi
+    //             ) {
+    //                 addFlag = true;
+    //             }
 
-                if (addFlag) {
-                    filteredRecordsArray_7.push(el);
-                }
-            });
-        } else {
-            filteredRecordsArray_7 = filteredRecordsArray_6;
-        }
-    } else {
-        filteredRecordsArray_7 = filteredRecordsArray_6;
-    }
+    //             if (addFlag) {
+    //                 filteredRecordsArray_7.push(el);
+    //             }
+    //         });
+    //     } else {
+    //         filteredRecordsArray_7 = filteredRecordsArray_6;
+    //     }
+    // } else {
+    //     filteredRecordsArray_7 = filteredRecordsArray_6;
+    // }
 
-    // selectedRemote ////////////////
+    // // selectedRemote ////////////////
 
-    let filteredRecordsArray_8 = [];
+    // let filteredRecordsArray_8 = [];
 
-    if (
-        remoteLoc.checked ||
-        (filterConfigData.remote_filter 
-            // && !filterConfigData.remote_visible
-            )
-    ) {
-        filteredRecordsArray_7.forEach((el, index) => {
-            let addFlag = false;
+    // if (
+    //     remoteLoc.checked ||
+    //     (filterConfigData.remote_filter 
+    //         // && !filterConfigData.remote_visible
+    //         )
+    // ) {
+    //     filteredRecordsArray_7.forEach((el, index) => {
+    //         let addFlag = false;
 
-            if (el.remote) {
-                addFlag = true;
-            }
+    //         if (el.remote) {
+    //             addFlag = true;
+    //         }
 
-            if (addFlag) {
-                filteredRecordsArray_8.push(el);
-            }
-        });
-    } else {
-        filteredRecordsArray_8 = filteredRecordsArray_7;
-    }
+    //         if (addFlag) {
+    //             filteredRecordsArray_8.push(el);
+    //         }
+    //     });
+    // } else {
+    //     filteredRecordsArray_8 = filteredRecordsArray_7;
+    // }
 
-    // selectedRelocation ////////////////
+    // // selectedRelocation ////////////////
 
-    let filteredRecordsArray_9 = [];
+    // let filteredRecordsArray_9 = [];
 
-    if (relocationLoc.checked) {
-        filteredRecordsArray_8.forEach((el, index) => {
-            let addFlag = false;
+    // if (relocationLoc.checked) {
+    //     filteredRecordsArray_8.forEach((el, index) => {
+    //         let addFlag = false;
 
-            if (el.relocation) {
-                addFlag = true;
-            }
+    //         if (el.relocation) {
+    //             addFlag = true;
+    //         }
 
-            if (addFlag) {
-                filteredRecordsArray_9.push(el);
-            }
-        });
-    } else {
-        filteredRecordsArray_9 = filteredRecordsArray_8;
-    }
+    //         if (addFlag) {
+    //             filteredRecordsArray_9.push(el);
+    //         }
+    //     });
+    // } else {
+    //     filteredRecordsArray_9 = filteredRecordsArray_8;
+    // }
 
-    // searchText ////////////////
+    // // searchText ////////////////
 
-    let filteredRecordsArray_10 = [];
+    // let filteredRecordsArray_10 = [];
 
-    let searchText = searchInputLoc.value;
+    // let searchText = searchInputLoc.value;
 
-    if (searchText) {
-        filteredRecordsArray_9.forEach((el, index) => {
-            let addFlag = false;
+    // if (searchText) {
+    //     filteredRecordsArray_9.forEach((el, index) => {
+    //         let addFlag = false;
 
-            let position;
+    //         let position;
 
-            el.description.forEach(function (elem) {
-                if (elem.value && elem.field_id !== "geolocation") {
-                    position = elem.value
-                        .toLowerCase()
-                        .search(searchText.toLowerCase());
-                    if (position !== -1) {
-                        addFlag = true;
-                    }
-                }
-            });
+    //         el.description.forEach(function (elem) {
+    //             if (elem.value && elem.field_id !== "geolocation") {
+    //                 position = elem.value
+    //                     .toLowerCase()
+    //                     .search(searchText.toLowerCase());
+    //                 if (position !== -1) {
+    //                     addFlag = true;
+    //                 }
+    //             }
+    //         });
 
-            position = el.name.toLowerCase().search(searchText.toLowerCase());
-            if (position !== -1) {
-                addFlag = true;
-            }
+    //         position = el.name.toLowerCase().search(searchText.toLowerCase());
+    //         if (position !== -1) {
+    //             addFlag = true;
+    //         }
 
-            if (addFlag) {
-                filteredRecordsArray_10.push(el);
-            }
-        });
-    } else {
-        filteredRecordsArray_10 = filteredRecordsArray_9;
-    }
+    //         if (addFlag) {
+    //             filteredRecordsArray_10.push(el);
+    //         }
+    //     });
+    // } else {
+    //     filteredRecordsArray_10 = filteredRecordsArray_9;
+    // }
 
-    // selectedRecruitmentType (coloring of records) ////////////////
-    filteredRecordsArray_11 = [];
+    // // selectedRecruitmentType (coloring of records) ////////////////
+    // filteredRecordsArray_11 = [];
     
-    let selectedRecruitmentType = [];
+    // let selectedRecruitmentType = [];
 
-    if (filterConfigData.recruitmentType_filter.length) {
-        selectedRecruitmentType = filterConfigData.recruitmentType_filter;
-    }
+    // if (filterConfigData.recruitmentType_filter.length) {
+    //     selectedRecruitmentType = filterConfigData.recruitmentType_filter;
+    // }
 
-    if (selectedRecruitmentType.length !== 0) {
-        filteredRecordsArray_10.forEach((el, index) => {
-            let addFlag = false;
+    // if (selectedRecruitmentType.length !== 0) {
+    //     filteredRecordsArray_10.forEach((el, index) => {
+    //         let addFlag = false;
 
-            selectedRecruitmentType.forEach((selectedFiltr) => {
-                if (el.recruitmentType === selectedFiltr) {
-                    addFlag = true;
-                }
-            });
+    //         selectedRecruitmentType.forEach((selectedFiltr) => {
+    //             if (el.recruitmentType === selectedFiltr) {
+    //                 addFlag = true;
+    //             }
+    //         });
 
-            if (addFlag) {
-                filteredRecordsArray_11.push(el);
-            }
-        });
-    } else {
-        filteredRecordsArray_11 = filteredRecordsArray_10;
-    }
+    //         if (addFlag) {
+    //             filteredRecordsArray_11.push(el);
+    //         }
+    //     });
+    // } else {
+    //     filteredRecordsArray_11 = filteredRecordsArray_10;
+    // }
 
-    recordsNumber = filteredRecordsArray_11.length;
-    summariseDownload(recordsNumber);
-    createRecordBoxes(filteredRecordsArray_11, 0, recordsOnPage);
+    // recordsNumber = filteredRecordsArray_11.length;
+    recordsNumber = filteredRecordsArray_1.length;
+    // summariseDownload(recordsNumber);
+    // createRecordBoxes(filteredRecordsArray_11, 0, recordsOnPage);
+    createRecordBoxes(filteredRecordsArray_1, 0, recordsOnPage);
     setPages(recordsNumber);
     filtersON = true;
     hideFilter();
@@ -580,10 +721,10 @@ const createFilterLists = (filterConfigData) => {
                 `<li>
                 <div class="checkbox-container-small">
                     <label class="checkbox">
-                        <input type="checkbox" id="sector-${el}" name="sector-${el}" value="sector-${el}">
+                        <input type="checkbox" id="${el}" name="${el}" value="${el}">
                         <span class="checkmark"></span>
                     </label>
-                    <label class="label-text" for="sector-${el}">${el}</label>
+                    <label class="label-text" for="${el}">${el}</label>
                 </div>
             </li>`
             );
@@ -609,10 +750,10 @@ const createFilterLists = (filterConfigData) => {
                 `<li>
                 <div class="checkbox-container-small">
                     <label class="checkbox">
-                        <input type="checkbox" id="employment-form-${el}" name="employment-form-${el}" value="employment-form-${el}">
+                        <input type="checkbox" id="${el}" name="${el}" value="${el}">
                         <span class="checkmark"></span>
                     </label>
-                    <label class="label-text" for="employment-form-${el}">${el}</label>
+                    <label class="label-text" for="${el}">${el}</label>
                 </div>
             </li>`
             );
@@ -637,10 +778,10 @@ const createFilterLists = (filterConfigData) => {
                 `<li>
                 <div class="checkbox-container-small">
                     <label class="checkbox">
-                        <input type="checkbox" id="working-hours-${el}" name="working-hours-${el}" value="working-hours-${el}">
+                        <input type="checkbox" id="${el}" name="${el}" value="${el}">
                         <span class="checkmark"></span>
                     </label>
-                    <label class="label-text" for="working-hours-${el}">${el}</label>
+                    <label class="label-text" for="${el}">${el}</label>
                 </div>
             </li>`
             );
@@ -665,10 +806,10 @@ const createFilterLists = (filterConfigData) => {
                 `<li>
                 <div class="checkbox-container-small">
                     <label class="checkbox">
-                        <input type="checkbox" id="language-${el}" name="language-${el}" value="language-${el}">
+                        <input type="checkbox" id="${el}" name="${el}" value="${el}">
                         <span class="checkmark"></span>
                     </label>
-                    <label class="label-text" for="language-${el}">${el}</label>
+                    <label class="label-text" for="${el}">${el}</label>
                 </div>
             </li>`
             );
@@ -727,10 +868,10 @@ const createFilterLists = (filterConfigData) => {
                 `<li>
                 <div class="checkbox-container-small">
                     <label class="checkbox">
-                        <input type="checkbox" id="city-${el}" name="city-${el}" value="city-${el}">
+                        <input type="checkbox" id="${el}" name="${el}" value="${el}">
                         <span class="checkmark"></span>
                     </label>
-                    <label class="label-text" for="city-${el}">${el}</label>
+                    <label class="label-text" for="${el}">${el}</label>
                 </div>
             </li>`
             );
@@ -1232,7 +1373,7 @@ const loopOnAPI = (jsonData, filterConfigData) => {
         createFilterLists(filterConfigData);
         // dropDownBtnStart();
         // pagesContainerStart();
-        // createFilteredRecordsArray();
+        createFilteredRecordsArray();
 
         
     }
