@@ -18,6 +18,8 @@ const pagesSwitchLoc = document.querySelector(".pages");
 const brancheWrapperLoc = document.querySelector(".sector");
 const branchesLoc = document.querySelector(".sector ul");
 const jobFormLoc = document.querySelector(".employment-form ul"); 
+const jobTypeLoc = document.querySelector(".working-hours ul"); 
+const langLoc = document.querySelector(".language ul"); 
 
 cityListBtnLoc.addEventListener("click", () => {
     cityListLoc.classList.toggle("expand");
@@ -57,6 +59,8 @@ let recordsOnPage = 20;
 let filtersON = false;
 let filterBranchesList = [];
 let filterJobFormList = [];
+let filterJobTypeList = [];
+let filterLangList = [];
 let filterListMaxHeight = 0;
 
 recordsOnPageLoc.value = recordsOnPage;
@@ -586,7 +590,6 @@ const createFilterLists = (filterConfigData) => {
     }
 
     if (filterJobFormList.length > 0) {
-        console.log(filterJobFormList)
         filterJobFormList.sort(function (a, b) {
             return a.localeCompare(b);
         });
@@ -614,45 +617,61 @@ const createFilterLists = (filterConfigData) => {
         });
     }
 
-    // if (filterJobTypeList.length > 0) {
-    //     filterJobTypeList.sort(function (a, b) {
-    //         return a.localeCompare(b);
-    //     });
-    //     rowHeight = filterJobTypeList.length * 21 + 3;
-    //     // if (getMobileOperatingSystem() === "unknown") {
-    //         jobTypeLoc.style.height = String(rowHeight) + "px";
-    //     // } else if (isSamsungBrowser || isChromeBrowser) {
-    //     //     jobTypeLoc.style.height = "50px";
-    //     // } else {
-    //     //     jobTypeLoc.style.height = String(rowHeight) + "px";
-    //     // }
-    //     filterJobTypeList.forEach(function (el) {
-    //         jobTypeLoc.insertAdjacentHTML(
-    //             "beforeend",
-    //             `<option value="${el}">${el}</option>`
-    //         );
-    //     });
-    // }
+    if (filterJobTypeList.length > 0) {
+        filterJobTypeList.sort(function (a, b) {
+            return a.localeCompare(b);
+        });
+        rowHeight = filterJobTypeList.length * 21 + 3;
+        // if (getMobileOperatingSystem() === "unknown") {
+            // jobTypeLoc.style.height = String(rowHeight) + "px";
+        // } else if (isSamsungBrowser || isChromeBrowser) {
+        //     jobTypeLoc.style.height = "50px";
+        // } else {
+        //     jobTypeLoc.style.height = String(rowHeight) + "px";
+        // }
+        filterJobTypeList.forEach(function (el) {
+            jobTypeLoc.insertAdjacentHTML(
+                "beforeend",
+                `<li>
+                <div class="checkbox-container-small">
+                    <label class="checkbox">
+                        <input type="checkbox" id="working-hours-${el}" name="working-hours-${el}" value="working-hours-${el}">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="label-text" for="working-hours-${el}">${el}</label>
+                </div>
+            </li>`
+            );
+        });
+    }
 
-    // if (filterLangList.length > 0) {
-    //     filterLangList.sort(function (a, b) {
-    //         return a.localeCompare(b);
-    //     });
-    //     rowHeight = filterLangList.length * 21 + 3;
-    //     // if (getMobileOperatingSystem() === "unknown") {
-    //         langLoc.style.height = String(rowHeight) + "px";
-    //     // } else if (isSamsungBrowser || isChromeBrowser) {
-    //     //     langLoc.style.height = "50px";
-    //     // } else {
-    //     //     langLoc.style.height = String(rowHeight) + "px";
-    //     // }
-    //     filterLangList.forEach(function (el) {
-    //         langLoc.insertAdjacentHTML(
-    //             "beforeend",
-    //             `<option value="${el}">${el}</option>`
-    //         );
-    //     });
-    // }
+    if (filterLangList.length > 0) {
+        filterLangList.sort(function (a, b) {
+            return a.localeCompare(b);
+        });
+        rowHeight = filterLangList.length * 21 + 3;
+        // if (getMobileOperatingSystem() === "unknown") {
+            // langLoc.style.height = String(rowHeight) + "px";
+        // } else if (isSamsungBrowser || isChromeBrowser) {
+        //     langLoc.style.height = "50px";
+        // } else {
+        //     langLoc.style.height = String(rowHeight) + "px";
+        // }
+        filterLangList.forEach(function (el) {
+            langLoc.insertAdjacentHTML(
+                "beforeend",
+                `<li>
+                <div class="checkbox-container-small">
+                    <label class="checkbox">
+                        <input type="checkbox" id="language-${el}" name="language-${el}" value="language-${el}">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="label-text" for="language-${el}">${el}</label>
+                </div>
+            </li>`
+            );
+        });
+    }
 
     // if (Object.keys(filterCountriesList).length > 0) {
     //     countriesLoc.insertAdjacentHTML(
@@ -1028,20 +1047,20 @@ const createDataForFilters = (
         });
     }
 
-    // if (filterJobTypeList.indexOf(jobType) === -1 && jobType !== undefined) {
-    //     filterJobTypeList.push(jobType);
-    // }
+    if (filterJobTypeList.indexOf(jobType) === -1 && jobType !== undefined) {
+        filterJobTypeList.push(jobType);
+    }
 
-    // if (filterLangList.indexOf(lang) === -1) {
+    if (filterLangList.indexOf(lang) === -1) {
 
-    //     if (filterConfigData.language_filter.length) {
-    //         if (filterConfigData.language_filter.indexOf(lang) !== -1) {
-    //             filterLangList.push(lang);
-    //         }
-    //     } else {
-    //         filterLangList.push(lang);
-    //     }
-    // }
+        if (filterConfigData.language_filter.length) {
+            if (filterConfigData.language_filter.indexOf(lang) !== -1) {
+                filterLangList.push(lang);
+            }
+        } else {
+            filterLangList.push(lang);
+        }
+    }
 
     // if (visibleRate) {
     //     if (salaryFrom < filterMinSalary) {
