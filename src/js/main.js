@@ -19,7 +19,8 @@ const brancheWrapperLoc = document.querySelector(".sector");
 const branchesLoc = document.querySelector(".sector ul");
 const jobFormLoc = document.querySelector(".employment-form ul"); 
 const jobTypeLoc = document.querySelector(".working-hours ul"); 
-const langLoc = document.querySelector(".language ul"); 
+const langLoc = document.querySelector(".language ul");
+const citiesLoc = document.querySelector(".city ul");
 
 cityListBtnLoc.addEventListener("click", () => {
     cityListLoc.classList.toggle("expand");
@@ -61,6 +62,7 @@ let filterBranchesList = [];
 let filterJobFormList = [];
 let filterJobTypeList = [];
 let filterLangList = [];
+let filterCountriesList = {};
 let filterListMaxHeight = 0;
 
 recordsOnPageLoc.value = recordsOnPage;
@@ -673,57 +675,67 @@ const createFilterLists = (filterConfigData) => {
         });
     }
 
-    // if (Object.keys(filterCountriesList).length > 0) {
-    //     countriesLoc.insertAdjacentHTML(
-    //         "beforeend",
-    //         `<option value="" class="placeholder">Państwo</option>`
-    //     );
+    console.log(filterCountriesList);
 
-    //     citiesLoc.insertAdjacentHTML(
-    //         "beforeend",
-    //         `<option value="" class="placeholder">Miasto</option>`
-    //     );
+    if (Object.keys(filterCountriesList).length > 0) {
+        // countriesLoc.insertAdjacentHTML(
+        //     "beforeend",
+        //     `<option value="" class="placeholder">Państwo</option>`
+        // );
 
-    //     function compare(a, b) {
-    //         return a.city.localeCompare(b.city);
-    //     }
+        // citiesLoc.insertAdjacentHTML(
+        //     "beforeend",
+        //     `<option value="" class="placeholder">Miasto</option>`
+        // );
 
-    //     for (let key in filterCountriesList) {
-    //         filterCountriesList[key].sort(compare);
-    //     }
+        function compare(a, b) {
+            return a.city.localeCompare(b.city);
+        }
 
-    //     filterCountriesList = Object.keys(filterCountriesList)
-    //         .sort()
-    //         .reduce((accumulator, key) => {
-    //             accumulator[key] = filterCountriesList[key];
-    //             return accumulator;
-    //         }, {});
+        for (let key in filterCountriesList) {
+            filterCountriesList[key].sort(compare);
+        }
 
-    //     let allCitiesObj = [];
-    //     for (let key in filterCountriesList) {
-    //         countriesLoc.insertAdjacentHTML(
-    //             "beforeend",
-    //             `<option value="${key}">${key}</option>`
-    //         );
-    //         allCitiesObj = allCitiesObj.concat(filterCountriesList[key]);
-    //     }
+        filterCountriesList = Object.keys(filterCountriesList)
+            .sort()
+            .reduce((accumulator, key) => {
+                accumulator[key] = filterCountriesList[key];
+                return accumulator;
+            }, {});
 
-    //     let allCitiesArray = [];
-    //     allCitiesObj.forEach((el) => {
-    //         allCitiesArray.push(el.city);
-    //     });
+        let allCitiesObj = [];
+        for (let key in filterCountriesList) {
+            // countriesLoc.insertAdjacentHTML(
+            //     "beforeend",
+            //     `<option value="${key}">${key}</option>`
+            // );
+            allCitiesObj = allCitiesObj.concat(filterCountriesList[key]);
+        }
 
-    //     allCitiesArray.sort(function (a, b) {
-    //         return a.localeCompare(b);
-    //     });
+        let allCitiesArray = [];
+        allCitiesObj.forEach((el) => {
+            allCitiesArray.push(el.city);
+        });
 
-    //     allCitiesArray.forEach(function (el) {
-    //         citiesLoc.insertAdjacentHTML(
-    //             "beforeend",
-    //             `<option value="${el}" class="active">${el} </option>`
-    //         );
-    //     });
-    // }
+        allCitiesArray.sort(function (a, b) {
+            return a.localeCompare(b);
+        });
+
+        allCitiesArray.forEach(function (el) {
+            citiesLoc.insertAdjacentHTML(
+                "beforeend",
+                `<li>
+                <div class="checkbox-container-small">
+                    <label class="checkbox">
+                        <input type="checkbox" id="city-${el}" name="city-${el}" value="city-${el}">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="label-text" for="city-${el}">${el}</label>
+                </div>
+            </li>`
+            );
+        });
+    }
 
     // sliderOne.min = filterMinSalary.toString();
     // sliderTwo.min = filterMinSalary.toString();
@@ -1071,74 +1083,74 @@ const createDataForFilters = (
     //     }
     // }
 
-    // if (filterConfigData.location_country_filter.length) {
+    if (filterConfigData.location_country_filter.length) {
         
-    //     if (filterConfigData.location_country_filter.indexOf(country) !== -1) {
-    //         if (filterCountriesList[country]) {
-    //             if (
-    //                 filterCountriesList[country].findIndex(
-    //                     (arr_el) => arr_el.city === city
-    //                 ) === -1
-    //             ) {
-    //                 if (filterConfigData.location_city_filter.length) {
-    //                     if (filterConfigData.location_city_filter.indexOf(city) !== -1) {
-    //                         filterCountriesList[country].push({
-    //                             city: city,
-    //                             lati: lati,
-    //                             longi: longi,
-    //                         });
-    //                     }
-    //                 } else {
-    //                     filterCountriesList[country].push({
-    //                         city: city,
-    //                         lati: lati,
-    //                         longi: longi,
-    //                     });
-    //                 }
-    //             }
-    //         } else {
-    //             filterCountriesList[country] = [];
-    //             if (filterConfigData.location_city_filter.length) {
-    //                 if (filterConfigData.location_city_filter.indexOf(city) !== -1) {
-    //                     filterCountriesList[country].push({
-    //                         city: city,
-    //                         lati: lati,
-    //                         longi: longi,
-    //                     });
-    //                 }
-    //             } else {
-    //                 filterCountriesList[country].push({
-    //                     city: city,
-    //                     lati: lati,
-    //                     longi: longi,
-    //                 });
-    //             }
-    //         }
-    //     }
+        if (filterConfigData.location_country_filter.indexOf(country) !== -1) {
+            if (filterCountriesList[country]) {
+                if (
+                    filterCountriesList[country].findIndex(
+                        (arr_el) => arr_el.city === city
+                    ) === -1
+                ) {
+                    if (filterConfigData.location_city_filter.length) {
+                        if (filterConfigData.location_city_filter.indexOf(city) !== -1) {
+                            filterCountriesList[country].push({
+                                city: city,
+                                lati: lati,
+                                longi: longi,
+                            });
+                        }
+                    } else {
+                        filterCountriesList[country].push({
+                            city: city,
+                            lati: lati,
+                            longi: longi,
+                        });
+                    }
+                }
+            } else {
+                filterCountriesList[country] = [];
+                if (filterConfigData.location_city_filter.length) {
+                    if (filterConfigData.location_city_filter.indexOf(city) !== -1) {
+                        filterCountriesList[country].push({
+                            city: city,
+                            lati: lati,
+                            longi: longi,
+                        });
+                    }
+                } else {
+                    filterCountriesList[country].push({
+                        city: city,
+                        lati: lati,
+                        longi: longi,
+                    });
+                }
+            }
+        }
 
-    // } else {
+    } else {
         
-    //     if (filterCountriesList[country]) {
-    //         if (
-    //             filterCountriesList[country].findIndex(
-    //                 (arr_el) => arr_el.city === city
-    //             ) === -1
-    //         ) {
-    //             filterCountriesList[country].push({
-    //                 city: city,
-    //                 lati: lati,
-    //                 longi: longi,
-    //             });
-    //         }
-    //     } else {
-    //         filterCountriesList[country] = [];
-    //         filterCountriesList[country].push({
-    //             city: city,
-    //             lati: lati,
-    //             longi: longi,
-    //         });
-    //     }
-    // }
+        if (filterCountriesList[country]) {
+            if (
+                filterCountriesList[country].findIndex(
+                    (arr_el) => arr_el.city === city
+                ) === -1
+            ) {
+                filterCountriesList[country].push({
+                    city: city,
+                    lati: lati,
+                    longi: longi,
+                });
+            }
+        } else {
+            filterCountriesList[country] = [];
+            filterCountriesList[country].push({
+                city: city,
+                lati: lati,
+                longi: longi,
+            });
+        }
+    }
 };
 
 // create OBJECTS ARRAY from Raw API JSON ///////////////////////////////////////////////
