@@ -18,6 +18,9 @@ $checkbox-empty-color: #cecece8e;
 $contrast-color: #1962b3;
 $unactive-color: #D3D3D3;
 $text-light: #bebebe;
+$color-rec-1: #20abfe;
+$color-rec-2: #6bc424;
+$color-rec-3: #fe7320;
 
 * {
     margin: 0;
@@ -36,6 +39,32 @@ $text-light: #bebebe;
 
 body {
     background-color: $background-color;
+}
+
+.result {
+    &.pt-border {
+        border: 2px solid $color-rec-1;
+    }
+
+    .pt-text {
+        color: $color-rec-1;
+    }
+
+    &.rs-border {
+        border: 2px solid $color-rec-2;
+    }
+
+    .rs-text {
+        color: $color-rec-2;
+    }
+
+    &.wew-border {
+        border: 2px solid $color-rec-3;
+    }
+
+    .wew-text {
+        color: $color-rec-3;
+    }
 }
 
 main {

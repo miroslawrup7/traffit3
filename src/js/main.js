@@ -30,6 +30,8 @@ const searchInputLoc = document.querySelector(".job input");
 const distanceInputsLoc = document.querySelectorAll(".distance input");
 const distanceTitleLoc = document.querySelector(".distance .list-title");
 
+const searchBtn = document.querySelector(".search-btn");
+
 cityListBtnLoc.addEventListener("click", () => {
     cityListLoc.classList.toggle("expand");
 })
@@ -238,13 +240,13 @@ const createFilteredRecordsArray = () => {
     // const countriesChildrenLoc = document.querySelectorAll(".countries option");
     const citiesChildrenLoc = citiesLoc.querySelectorAll("li input");
 
-    console.log(branchesChildrenLoc)
-
     let filteredRecordsArray = allRecordsArray;
 
     // selectedBranches ////////////////
 
     let selectedBranches = [];
+
+    console.log(branchesChildrenLoc)
 
     if (filterConfigData.branche_filter.length) {
         selectedBranches = filterConfigData.branche_filter;
@@ -280,15 +282,23 @@ const createFilteredRecordsArray = () => {
         filteredRecordsArray_1 = filteredRecordsArray;
     }
 
-    selectedJobForms ////////////////
+    console.log("filteredRecordsArray_1", filteredRecordsArray_1)
 
-    let selectedJobForms = Array.from(jobFormChildrenLoc)
+    // selectedJobForms ////////////////
+
+    let selectedJobForms = [];
+
+    console.log(jobFormChildrenLoc)
+
+    selectedJobForms = Array.from(jobFormChildrenLoc)
         .filter(function (elem) {
-            return elem.selected;
+            return elem.checked;
         })
         .map(function (elem) {
             return elem.value;
         });
+
+        console.log(selectedJobForms)
 
     let filteredRecordsArray_2 = [];
 
@@ -312,11 +322,13 @@ const createFilteredRecordsArray = () => {
         filteredRecordsArray_2 = filteredRecordsArray_1;
     }
 
-    // selectedJobTypes////////////////
+    console.log("filteredRecordsArray_2", filteredRecordsArray_2)
+
+    // selectedJobTypes ////////////////
 
     let selectedjobTypes = Array.from(jobTypeChildrenLoc)
         .filter(function (elem) {
-            return elem.selected;
+            return elem.checked;
         })
         .map(function (elem) {
             return elem.value;
@@ -347,13 +359,12 @@ const createFilteredRecordsArray = () => {
 
     if (
         filterConfigData.language_filter.length 
-        // && !filterConfigData.language_visible
     ) {
         selectedLangs = filterConfigData.language_filter;
     } else {
         selectedLangs = Array.from(langChildrenLoc)
             .filter(function (elem) {
-                return elem.selected;
+                return elem.checked;
             })
             .map(function (elem) {
                 return elem.value;
@@ -491,7 +502,7 @@ const createFilteredRecordsArray = () => {
             selectedCity = Array.from(citiesChildrenLoc)
                 .filter(function (elem) {
                     if (elem.value) {
-                        return elem.selected;
+                        return elem.checked;
                     }
                 })
                 .map(function (elem) {
@@ -499,6 +510,8 @@ const createFilteredRecordsArray = () => {
                         return elem.value;
                     }
                 });
+
+                console.log(selectedCity)
         // }
     }
 
@@ -555,12 +568,7 @@ const createFilteredRecordsArray = () => {
 
     let filteredRecordsArray_8 = [];
 
-    if (
-        remoteLoc.checked ||
-        (filterConfigData.remote_filter 
-            // && !filterConfigData.remote_visible
-            )
-    ) {
+    if (remoteLoc.checked || (filterConfigData.remote_filter)) {
         filteredRecordsArray_7.forEach((el, index) => {
             let addFlag = false;
 
@@ -1427,3 +1435,6 @@ recordsOnPageLoc.addEventListener("change", (e) => {
 
     // setParentIframeHeight();
 });
+
+// SEARCH LISTENER /////////////////////////////////////////////////////////////
+searchBtn.addEventListener("click", createFilteredRecordsArray);
