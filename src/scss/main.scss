@@ -1,0 +1,663 @@
+@font-face {
+    font-family: 'Poppins300';
+    src: url(../img/fonts/Poppins-Light.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins600';
+    src: url(../img/fonts/Poppins-SemiBold.ttf);
+}
+
+$main-color: #FE7320;
+$text-color: #666666;
+$background-color: #F1F1F1;
+$scroll-color: #cecece8e;
+$scroll-color-hover: #CECECE;
+$checkbox-empty-color: #cecece8e;
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    line-height: 1.4em;
+    vertical-align: baseline;
+    text-decoration: none;
+    outline: 0;
+    box-sizing: border-box;
+    background-color: transparent;
+    font-family: 'Poppins300', Helvetica, Arial, Lucida, sans-serif;
+    font-size: 16px;
+    color: $text-color;
+}
+
+body {
+    background-color: $background-color;
+}
+
+main {
+    width: 80%;
+    max-width: 1200px;
+    min-height: 100vh;
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    margin: auto;
+    // border: red solid 1px;
+
+
+    h3 {
+        width: 100%;
+        margin-top: 100px;
+        margin-bottom: 36px;
+        font-family: 'Poppins600', Helvetica, Arial, Lucida, sans-serif;
+        font-size: 35px;
+        color: $main-color;
+        text-align: center;
+        // border: blue 1px solid;
+    }
+
+    .wrapper {
+        height: fit-content;
+        display: flex;
+        gap: 24px;
+        margin: 12px 0;
+        // border: green 1px solid;
+
+        &.one {
+            width: 79%;
+            order: 1;
+        }
+
+        &.two {
+            width: 21%;
+            order: 2;
+        }
+
+        &.three {
+            width: 100%;
+            order: 3;
+        }
+
+        &.four {
+            width: 100%;
+            height: fit-content;
+            order: 3;
+        }
+
+        &.five {
+            width: 100%;
+            margin-top: 36px;
+            display: flex;
+            justify-content: center;
+            order: 4;
+        }
+
+        .drop-down-container {
+            position: relative;
+            height: 50px;
+
+            &.city {
+                width: 27%;
+                z-index: 10;
+            }
+
+            &.distance {
+                width: 20%;
+                margin-right: 12px;
+                z-index: 9;
+            }
+
+            &.sector {
+                width: 25%;
+                z-index: 8;
+            }
+
+            &.employment-form {
+                width: 25%;
+                z-index: 7;
+            }
+
+            &.working-hours {
+                width: 25%;
+                z-index: 6;
+            }
+
+            &.language {
+                width: 25%;
+                z-index: 5;
+            }
+        }
+
+        .element {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            // border: 1px solid brown;
+
+            img.arrow-down {
+                position: absolute;
+                right: 10px;
+                top: 15px;
+                height: 20px;
+                display: flex;
+
+                &.big {
+                    height: 26px;
+                    right: -32px;
+                }
+            }
+
+            &.checkbox-container {
+                display: flex;
+                align-items: center;
+
+                .checkbox {
+                    display: block;
+                    position: relative;
+                    height: 35px;
+                    width: 35px;
+                    cursor: pointer;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    user-select: none;
+
+                    /* Hide the browser's default checkbox */
+                    input {
+                        position: absolute;
+                        opacity: 0;
+                        cursor: pointer;
+                        height: 100%;
+                        width: 100%;
+                    }
+
+                    /* Create a custom checkbox */
+                    .checkmark {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        height: 100%;
+                        width: 100%;
+                        background-color: #fff;
+                        // border: 1px #fff solid;
+                        border-radius: 8px;
+                    }
+
+                    /* On mouse-over, add a background color */
+                    &:hover input~.checkmark {
+                        // background-color: $main-color-light;
+                        // border: 1px $main-color solid;
+                    }
+
+                    /* When the checkbox is checked, add a background */
+                    input:checked~.checkmark {
+                        background-color: $main-color;
+                        // border: 1px $main-color solid;
+                    }
+
+                    /* When the checkbox is checked, add a background */
+                    input:checked:hover~.checkmark {
+                        // background-color: red;
+                        // border: 1px red solid;
+                    }
+
+                    /* Create the checkmark/indicator (hidden when not checked) */
+                    .checkmark:after {
+                        content: "";
+                        position: absolute;
+                        display: none;
+                    }
+
+                    /* Show the checkmark when checked */
+                    input:checked~.checkmark:after {
+                        display: block;
+                    }
+
+                    /* Style the checkmark/indicator */
+                    .checkmark:after {
+                        left: 10px;
+                        top: 4px;
+                        width: 10px;
+                        height: 19px;
+                        border: solid white;
+                        border-width: 0 4px 4px 0;
+                        transform: rotate(40deg);
+                    }
+                }
+
+                .label-text {
+                    display: inline-block;
+                    font-size: 16px;
+                    cursor: pointer;
+                    margin: 0 12px;
+                }
+            }
+
+            &.drop-down {
+                width: 100%;
+                height: fit-content;
+                min-height: 50px;
+                position: absolute;
+                align-items: flex-start;
+                padding-left: 20px;
+                padding-right: 5px;
+                overflow-y: hidden;
+                border-radius: 15px;
+                font-size: 16px;
+                color: $text-color;
+                background-color: #fff;
+                // border: 1px solid red;
+
+                .list-wrapper {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    // border: 1px solid blue;
+
+                    .list-title {
+                        height: 50px;
+                        display: flex;
+                        align-items: center;
+                        // border: 1px solid green;
+                    }
+
+                    .list {
+                        width: 100%;
+                        min-height: fit-content;
+                        max-height: 0;
+                        display: flex;
+                        overflow-y: auto;
+                        // border: 1px solid pink;
+
+                        &.expand {
+                            max-height: 400px;
+                        }
+
+                        &::-webkit-scrollbar {
+                            width: 6px;
+                        }
+
+                        &::-webkit-scrollbar-track {
+                            border-radius: 3px;
+                        }
+
+                        &::-webkit-scrollbar-thumb {
+                            background: $scroll-color;
+                            border-radius: 3px;
+                        }
+
+                        &::-webkit-scrollbar-thumb:hover {
+                            background: $scroll-color-hover;
+                        }
+
+                        ul {
+                            list-style-type: none;
+
+                            li {
+                                margin: 12px 0;
+                            }
+                        }
+
+                        .checkbox-container-small {
+                            display: flex;
+                            align-items: center;
+
+                            .checkbox {
+                                display: block;
+                                position: relative;
+                                height: 24px;
+                                width: 24px;
+                                cursor: pointer;
+                                -webkit-user-select: none;
+                                -moz-user-select: none;
+                                -ms-user-select: none;
+                                user-select: none;
+                                flex-shrink: 0;
+
+                                /* Hide the browser's default checkbox */
+                                input {
+                                    position: absolute;
+                                    opacity: 0;
+                                    cursor: pointer;
+                                    height: 100%;
+                                    width: 100%;
+                                }
+
+                                /* Create a custom checkbox */
+                                .checkmark {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    height: 100%;
+                                    width: 100%;
+                                    background-color: #fff;
+                                    border: 1px $checkbox-empty-color solid;
+                                    border-radius: 8px;
+                                }
+
+                                /* On mouse-over, add a background color */
+                                &:hover input~.checkmark {
+                                    // background-color: $main-color-light;
+                                    // border: 1px $main-color solid;
+                                }
+
+                                /* When the checkbox is checked, add a background */
+                                input:checked~.checkmark {
+                                    background-color: $main-color;
+                                    border: 1px $main-color solid;
+                                }
+
+                                /* When the checkbox is checked, add a background */
+                                input:checked:hover~.checkmark {
+                                    // background-color: red;
+                                    // border: 1px red solid;
+                                }
+
+                                /* Create the checkmark/indicator (hidden when not checked) */
+                                .checkmark:after {
+                                    content: "";
+                                    position: absolute;
+                                    display: none;
+                                }
+
+                                /* Show the checkmark when checked */
+                                input:checked~.checkmark:after {
+                                    display: block;
+                                }
+
+                                /* Style the checkmark/indicator */
+                                .checkmark:after {
+                                    left: 7px;
+                                    top: 3px;
+                                    width: 5px;
+                                    height: 12px;
+                                    border: solid white;
+                                    border-width: 0 3px 3px 0;
+                                    transform: rotate(40deg);
+                                }
+                            }
+
+                            .label-text {
+                                display: inline-block;
+                                font-size: 16px;
+                                cursor: pointer;
+                                margin: 0 8px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.job {
+                width: 53%;
+            }
+
+            &.search-btn {
+                width: 100%;
+                margin-left: 12px;
+                display: flex;
+                justify-content: center;
+                background-color: $main-color;
+                color: white;
+                font-family: 'Poppins600', Helvetica, Arial, Lucida, sans-serif;
+                font-size: 25px;
+                border-radius: 15px;
+            }
+
+            &.remote {
+                width: 190px;
+                // border: red 1px solid;
+            }
+
+            &.relocation {
+                width: 190px;
+                // border: red 1px solid;
+            }
+
+            &.advanced-search-btn {
+                position: relative;
+                width: fit-content;
+                font-size: 25px;
+
+
+                .sliders {
+                    height: 26px;
+                    margin-right: 8px;
+                }
+            }
+
+            input {
+                width: 100%;
+                height: 100%;
+                padding: 0 20px;
+                background-color: #fff;
+                border-radius: 15px;
+
+                &::placeholder {
+                    font-size: 16px;
+                    color: $text-color;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1200px) {
+    main {
+        max-width: 750px;
+
+        h3 {
+            margin-top: 90px;
+        }
+
+
+        .wrapper {
+
+            &.one {
+                width: 100%;
+                order: 1;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            &.two {
+                width: 100%;
+                order: 4;
+                display: flex;
+                justify-content: center;
+            }
+
+            &.three {
+                width: 100%;
+                order: 2;
+                justify-content: center;
+            }
+
+            &.four {
+                width: 100%;
+                order: 2;
+                flex-wrap: wrap;
+            }
+
+            &.five {
+                order: 3;
+                width: 100%;
+            }
+
+
+
+            .drop-down-container {
+
+                &.city {
+                    width: 45%;
+                    flex-grow: 1;
+                }
+
+                &.distance {
+                    margin-right: 0;
+                    width: 45%;
+                    flex-grow: 1;
+                }
+
+                &.search-btn {
+                    max-width: 30%;
+                    min-width: 220px;
+                    margin-left: 0;
+                }
+
+                &.sector {
+                    width: 45%;
+                    flex-grow: 1;
+                    order: 1;
+                }
+
+                &.employment-form {
+                    width: 45%;
+                    flex-grow: 1;
+                    order: 3;
+                }
+
+                &.working-hours {
+                    width: 45%;
+                    flex-grow: 1;
+                    order: 2;
+                }
+
+                &.language {
+                    width: 45%;
+                    flex-grow: 1;
+                    order: 4;
+                }
+            }
+
+            .element {
+                &.job {
+                    width: 100%;
+                    flex-shrink: 0;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    main {
+        max-width: 375px;
+
+        h3 {
+            font-size: 25px;
+            margin-top: 36px;
+        }
+
+        .wrapper {
+
+            .arrow-down {
+
+                &.big {
+                    height: 20px;
+                    right: -26px;
+                }
+            }
+
+            .sliders {
+                height: 20px;
+                margin-right: 4px;
+            }
+
+
+            &.three {
+                flex-wrap: wrap;
+                gap: 0;
+                margin: 0;
+            }
+
+            &.five {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+
+            .drop-down-container {
+
+                &.city {
+                    width: 52%
+                }
+
+                &.distance {
+                    width: 32%
+                }
+
+                &.search-btn {
+                    width: 100%;
+                    max-width: unset;
+                }
+
+                &.remote {
+                    width: 100%
+                }
+
+                &.relocation {
+                    width: 100%;
+                }
+
+                &.sector {
+                    width: 100%;
+                }
+
+                &.employment-form {
+                    width: 100%;
+                }
+
+                &.working-hours {
+                    width: 100%;
+                }
+
+                &.language {
+                    width: 100%;
+                }
+
+
+
+
+            }
+
+            .element {
+                &.advanced-search-btn {
+                    font-size: 16px;
+
+                    .sliders {
+                        height: 20px;
+                        margin-right: 8px;
+                    }
+
+                    .arrow-down.big {
+                        height: 20px;
+                        right: -28px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+
+        .wrapper {
+
+            .drop-down-container {
+
+                &.city {
+                    width: 100%
+                }
+
+                &.distance {
+                    width: 100%
+                }
+            }
+        }
+    }
+}
