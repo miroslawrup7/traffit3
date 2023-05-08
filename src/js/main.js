@@ -23,6 +23,13 @@ const langLoc = document.querySelector(".language ul");
 const citiesLoc = document.querySelector(".city ul");
 const resultsLoc = document.querySelector(".results");
 
+const remoteLoc = document.querySelector("#remote");
+const relocationLoc = document.querySelector("#relocation");
+const searchInputLoc = document.querySelector(".job input");
+
+const distanceInputsLoc = document.querySelectorAll(".distance input");
+const distanceTitleLoc = document.querySelector(".distance .list-title");
+
 cityListBtnLoc.addEventListener("click", () => {
     cityListLoc.classList.toggle("expand");
 })
@@ -65,6 +72,23 @@ let filterJobTypeList = [];
 let filterLangList = [];
 let filterCountriesList = {};
 let filterListMaxHeight = 0;
+let filteredRecordsArray_11;
+
+
+// change distance label after choose
+distanceInputsLoc.forEach((elem) => {
+    elem.addEventListener("change", () => {
+        distanceTitleLoc.innerText = `+${Number(elem.value)} km`;
+        distanceTitleLoc.dataset.distance = Number(elem.value);
+    })
+})
+
+
+
+
+
+
+
 
 recordsOnPageLoc.value = recordsOnPage;
 
@@ -208,11 +232,11 @@ const createRecordBoxes = (recordsArray, firstRecordNumber, recordsOnPage) => {
 // filter the data to create FILTERED OBJECTS ARRAY ///////////////////////////////
 const createFilteredRecordsArray = () => {
     const branchesChildrenLoc = branchesLoc.querySelectorAll("li input");
-    // const jobFormChildrenLoc = document.querySelectorAll(".job-form option");
-    // const jobTypeChildrenLoc = document.querySelectorAll(".job-type option");
-    // const langChildrenLoc = document.querySelectorAll(".lang option");
+    const jobFormChildrenLoc = jobFormLoc.querySelectorAll("li input");
+    const jobTypeChildrenLoc = jobTypeLoc.querySelectorAll("li input");
+    const langChildrenLoc = langLoc.querySelectorAll("li input");
     // const countriesChildrenLoc = document.querySelectorAll(".countries option");
-    // const citiesChildrenLoc = document.querySelectorAll(".cities option");
+    const citiesChildrenLoc = citiesLoc.querySelectorAll("li input");
 
     console.log(branchesChildrenLoc)
 
@@ -256,105 +280,105 @@ const createFilteredRecordsArray = () => {
         filteredRecordsArray_1 = filteredRecordsArray;
     }
 
-    // selectedJobForms ////////////////
+    selectedJobForms ////////////////
 
-    // let selectedJobForms = Array.from(jobFormChildrenLoc)
-    //     .filter(function (elem) {
-    //         return elem.selected;
-    //     })
-    //     .map(function (elem) {
-    //         return elem.value;
-    //     });
+    let selectedJobForms = Array.from(jobFormChildrenLoc)
+        .filter(function (elem) {
+            return elem.selected;
+        })
+        .map(function (elem) {
+            return elem.value;
+        });
 
-    // let filteredRecordsArray_2 = [];
+    let filteredRecordsArray_2 = [];
 
-    // if (selectedJobForms.length !== 0) {
-    //     filteredRecordsArray_1.forEach((el, index) => {
-    //         if (el.jobForm) {
-    //             let addFlag = false;
+    if (selectedJobForms.length !== 0) {
+        filteredRecordsArray_1.forEach((el, index) => {
+            if (el.jobForm) {
+                let addFlag = false;
 
-    //             selectedJobForms.forEach((selectedFiltr) => {
-    //                 if (el.jobForm.indexOf(selectedFiltr) !== -1) {
-    //                     addFlag = true;
-    //                 }
-    //             });
+                selectedJobForms.forEach((selectedFiltr) => {
+                    if (el.jobForm.indexOf(selectedFiltr) !== -1) {
+                        addFlag = true;
+                    }
+                });
 
-    //             if (addFlag) {
-    //                 filteredRecordsArray_2.push(el);
-    //             }
-    //         }
-    //     });
-    // } else {
-    //     filteredRecordsArray_2 = filteredRecordsArray_1;
-    // }
+                if (addFlag) {
+                    filteredRecordsArray_2.push(el);
+                }
+            }
+        });
+    } else {
+        filteredRecordsArray_2 = filteredRecordsArray_1;
+    }
 
-    // // selectedJobTypes////////////////
+    // selectedJobTypes////////////////
 
-    // let selectedjobTypes = Array.from(jobTypeChildrenLoc)
-    //     .filter(function (elem) {
-    //         return elem.selected;
-    //     })
-    //     .map(function (elem) {
-    //         return elem.value;
-    //     });
+    let selectedjobTypes = Array.from(jobTypeChildrenLoc)
+        .filter(function (elem) {
+            return elem.selected;
+        })
+        .map(function (elem) {
+            return elem.value;
+        });
 
-    // let filteredRecordsArray_3 = [];
+    let filteredRecordsArray_3 = [];
 
-    // if (selectedjobTypes.length !== 0) {
-    //     filteredRecordsArray_2.forEach((el, index) => {
-    //         let addFlag = false;
+    if (selectedjobTypes.length !== 0) {
+        filteredRecordsArray_2.forEach((el, index) => {
+            let addFlag = false;
 
-    //         selectedjobTypes.forEach((selectedFiltr) => {
-    //             if (el.jobType === selectedFiltr) {
-    //                 addFlag = true;
-    //             }
-    //         });
+            selectedjobTypes.forEach((selectedFiltr) => {
+                if (el.jobType === selectedFiltr) {
+                    addFlag = true;
+                }
+            });
 
-    //         if (addFlag) {
-    //             filteredRecordsArray_3.push(el);
-    //         }
-    //     });
-    // } else {
-    //     filteredRecordsArray_3 = filteredRecordsArray_2;
-    // }
+            if (addFlag) {
+                filteredRecordsArray_3.push(el);
+            }
+        });
+    } else {
+        filteredRecordsArray_3 = filteredRecordsArray_2;
+    }
 
-    // // selectedLangs ////////////////
-    // let selectedLangs = [];
+    // selectedLangs ////////////////
+    let selectedLangs = [];
 
-    // if (
-    //     filterConfigData.language_filter.length 
-    //     // && !filterConfigData.language_visible
-    // ) {
-    //     selectedLangs = filterConfigData.language_filter;
-    // } else {
-    //     selectedLangs = Array.from(langChildrenLoc)
-    //         .filter(function (elem) {
-    //             return elem.selected;
-    //         })
-    //         .map(function (elem) {
-    //             return elem.value;
-    //         });
-    // }
+    if (
+        filterConfigData.language_filter.length 
+        // && !filterConfigData.language_visible
+    ) {
+        selectedLangs = filterConfigData.language_filter;
+    } else {
+        selectedLangs = Array.from(langChildrenLoc)
+            .filter(function (elem) {
+                return elem.selected;
+            })
+            .map(function (elem) {
+                return elem.value;
+            });
+    }
 
-    // let filteredRecordsArray_4 = [];
+    let filteredRecordsArray_4 = [];
 
-    // if (selectedLangs.length !== 0) {
-    //     filteredRecordsArray_3.forEach((el, index) => {
-    //         let addFlag = false;
+    if (selectedLangs.length !== 0) {
+        filteredRecordsArray_3.forEach((el, index) => {
+            let addFlag = false;
 
-    //         selectedLangs.forEach((selectedFiltr) => {
-    //             if (el.lang === selectedFiltr) {
-    //                 addFlag = true;
-    //             }
-    //         });
+            selectedLangs.forEach((selectedFiltr) => {
+                if (el.lang === selectedFiltr) {
+                    addFlag = true;
+                }
+            });
 
-    //         if (addFlag) {
-    //             filteredRecordsArray_4.push(el);
-    //         }
-    //     });
-    // } else {
-    //     filteredRecordsArray_4 = filteredRecordsArray_3;
-    // }
+            if (addFlag) {
+                filteredRecordsArray_4.push(el);
+            }
+        });
+    } else {
+        filteredRecordsArray_4 = filteredRecordsArray_3;
+    }
 
     // // selectedSalary ////////////////
 
@@ -454,210 +478,197 @@ const createFilteredRecordsArray = () => {
     //     filteredRecordsArray_6 = filteredRecordsArray_5;
     // }
 
-    // // selectedCity & selectedDistance ////////////////
+    let filteredRecordsArray_6 = filteredRecordsArray_4;
 
-    // let selectedCity = [];
+    // selectedCity & selectedDistance ////////////////
 
-    // if (
-    //     filterConfigData.location_city_filter.length
-    //     // && !filterConfigData.location_visible
-    // ) {
-    //     selectedCity = filterConfigData.location_city_filter;
-    // } else {
-    //     if (locationMarkLoc.checked) {
-    //         selectedCity = Array.from(citiesChildrenLoc)
-    //             .filter(function (elem) {
-    //                 if (elem.value) {
-    //                     return elem.selected;
-    //                 }
-    //             })
-    //             .map(function (elem) {
-    //                 if (elem.value) {
-    //                     return elem.value;
-    //                 }
-    //             });
-    //     }
-    // }
+    let selectedCity = [];
 
-    // let filteredRecordsArray_7 = [];
+    if (filterConfigData.location_city_filter.length) {
+        selectedCity = filterConfigData.location_city_filter;
+    } else {
+        // if (locationMarkLoc.checked) {
+            selectedCity = Array.from(citiesChildrenLoc)
+                .filter(function (elem) {
+                    if (elem.value) {
+                        return elem.selected;
+                    }
+                })
+                .map(function (elem) {
+                    if (elem.value) {
+                        return elem.value;
+                    }
+                });
+        // }
+    }
 
-    // if (
-    //     locationMarkLoc.checked ||
-    //     (filterConfigData.location_city_filter.length 
-    //         // && !filterConfigData.location_visible
-    //         )
-    // ) {
-    //     if (selectedCity.length) {
-    //         let selectedDistance = 0;
+    let filteredRecordsArray_7 = [];
 
-    //         selectedDistance = parseInt(locationDotLoc.value);
+    if (filterConfigData.location_city_filter.length) {
+        if (selectedCity.length) {
+            
+            let selectedDistance = parseInt(distanceTitleLoc.dataset.distance);
 
-    //         let lati;
-    //         let longi;
-    //         let min_lati;
-    //         let max_lati;
-    //         let min_longi;
-    //         let max_longi;
+            let lati;
+            let longi;
+            let min_lati;
+            let max_lati;
+            let min_longi;
+            let max_longi;
 
-    //         filteredRecordsArray_6.forEach((el, index) => {
-    //             if (el.city === selectedCity[0]) {
-    //                 lati = el.lati;
-    //                 longi = el.longi;
+            filteredRecordsArray_6.forEach((el, index) => {
+                if (el.city === selectedCity[0]) {
+                    lati = el.lati;
+                    longi = el.longi;
 
-    //                 min_lati = lati - selectedDistance * 0.009044;
-    //                 max_lati = lati + selectedDistance * 0.009044;
-    //                 min_longi =
-    //                     longi -
-    //                     (selectedDistance * 0.0089831) /
-    //                         Math.cos((lati * Math.PI) / 180);
-    //                 max_longi =
-    //                     longi +
-    //                     (selectedDistance * 0.0089831) /
-    //                         Math.cos((lati * Math.PI) / 180);
-    //             }
-    //         });
+                    min_lati = lati - selectedDistance * 0.009044;
+                    max_lati = lati + selectedDistance * 0.009044;
+                    min_longi = longi - (selectedDistance * 0.0089831) / Math.cos((lati * Math.PI) / 180);
+                    max_longi = longi + (selectedDistance * 0.0089831) / Math.cos((lati * Math.PI) / 180);
+                }
+            });
 
-    //         filteredRecordsArray_6.forEach((el, index) => {
-    //             let addFlag = false;
+            filteredRecordsArray_6.forEach((el, index) => {
+                let addFlag = false;
 
-    //             if (
-    //                 el.lati <= max_lati &&
-    //                 el.lati >= min_lati &&
-    //                 el.longi <= max_longi &&
-    //                 el.longi >= min_longi
-    //             ) {
-    //                 addFlag = true;
-    //             }
+                if (
+                    el.lati <= max_lati &&
+                    el.lati >= min_lati &&
+                    el.longi <= max_longi &&
+                    el.longi >= min_longi
+                ) {
+                    addFlag = true;
+                }
 
-    //             if (addFlag) {
-    //                 filteredRecordsArray_7.push(el);
-    //             }
-    //         });
-    //     } else {
-    //         filteredRecordsArray_7 = filteredRecordsArray_6;
-    //     }
-    // } else {
-    //     filteredRecordsArray_7 = filteredRecordsArray_6;
-    // }
+                if (addFlag) {
+                    filteredRecordsArray_7.push(el);
+                }
+            });
+        } else {
+            filteredRecordsArray_7 = filteredRecordsArray_6;
+        }
+    } else {
+        filteredRecordsArray_7 = filteredRecordsArray_6;
+    }
 
-    // // selectedRemote ////////////////
+    // selectedRemote ////////////////
 
-    // let filteredRecordsArray_8 = [];
+    let filteredRecordsArray_8 = [];
 
-    // if (
-    //     remoteLoc.checked ||
-    //     (filterConfigData.remote_filter 
-    //         // && !filterConfigData.remote_visible
-    //         )
-    // ) {
-    //     filteredRecordsArray_7.forEach((el, index) => {
-    //         let addFlag = false;
+    if (
+        remoteLoc.checked ||
+        (filterConfigData.remote_filter 
+            // && !filterConfigData.remote_visible
+            )
+    ) {
+        filteredRecordsArray_7.forEach((el, index) => {
+            let addFlag = false;
 
-    //         if (el.remote) {
-    //             addFlag = true;
-    //         }
+            if (el.remote) {
+                addFlag = true;
+            }
 
-    //         if (addFlag) {
-    //             filteredRecordsArray_8.push(el);
-    //         }
-    //     });
-    // } else {
-    //     filteredRecordsArray_8 = filteredRecordsArray_7;
-    // }
+            if (addFlag) {
+                filteredRecordsArray_8.push(el);
+            }
+        });
+    } else {
+        filteredRecordsArray_8 = filteredRecordsArray_7;
+    }
 
-    // // selectedRelocation ////////////////
+    // selectedRelocation ////////////////
 
-    // let filteredRecordsArray_9 = [];
+    let filteredRecordsArray_9 = [];
 
-    // if (relocationLoc.checked) {
-    //     filteredRecordsArray_8.forEach((el, index) => {
-    //         let addFlag = false;
+    if (relocationLoc.checked) {
+        filteredRecordsArray_8.forEach((el, index) => {
+            let addFlag = false;
 
-    //         if (el.relocation) {
-    //             addFlag = true;
-    //         }
+            if (el.relocation) {
+                addFlag = true;
+            }
 
-    //         if (addFlag) {
-    //             filteredRecordsArray_9.push(el);
-    //         }
-    //     });
-    // } else {
-    //     filteredRecordsArray_9 = filteredRecordsArray_8;
-    // }
+            if (addFlag) {
+                filteredRecordsArray_9.push(el);
+            }
+        });
+    } else {
+        filteredRecordsArray_9 = filteredRecordsArray_8;
+    }
 
-    // // searchText ////////////////
+    // searchText ////////////////
 
-    // let filteredRecordsArray_10 = [];
+    let filteredRecordsArray_10 = [];
 
-    // let searchText = searchInputLoc.value;
+    let searchText = searchInputLoc.value;
 
-    // if (searchText) {
-    //     filteredRecordsArray_9.forEach((el, index) => {
-    //         let addFlag = false;
+    if (searchText) {
+        filteredRecordsArray_9.forEach((el, index) => {
+            let addFlag = false;
 
-    //         let position;
+            let position;
 
-    //         el.description.forEach(function (elem) {
-    //             if (elem.value && elem.field_id !== "geolocation") {
-    //                 position = elem.value
-    //                     .toLowerCase()
-    //                     .search(searchText.toLowerCase());
-    //                 if (position !== -1) {
-    //                     addFlag = true;
-    //                 }
-    //             }
-    //         });
+            el.description.forEach(function (elem) {
+                if (elem.value && elem.field_id !== "geolocation") {
+                    position = elem.value
+                        .toLowerCase()
+                        .search(searchText.toLowerCase());
+                    if (position !== -1) {
+                        addFlag = true;
+                    }
+                }
+            });
 
-    //         position = el.name.toLowerCase().search(searchText.toLowerCase());
-    //         if (position !== -1) {
-    //             addFlag = true;
-    //         }
+            position = el.name.toLowerCase().search(searchText.toLowerCase());
+            if (position !== -1) {
+                addFlag = true;
+            }
 
-    //         if (addFlag) {
-    //             filteredRecordsArray_10.push(el);
-    //         }
-    //     });
-    // } else {
-    //     filteredRecordsArray_10 = filteredRecordsArray_9;
-    // }
+            if (addFlag) {
+                filteredRecordsArray_10.push(el);
+            }
+        });
+    } else {
+        filteredRecordsArray_10 = filteredRecordsArray_9;
+    }
 
-    // // selectedRecruitmentType (coloring of records) ////////////////
-    // filteredRecordsArray_11 = [];
+    // selectedRecruitmentType (coloring of records) ////////////////
+    filteredRecordsArray_11 = [];
     
-    // let selectedRecruitmentType = [];
+    let selectedRecruitmentType = [];
 
-    // if (filterConfigData.recruitmentType_filter.length) {
-    //     selectedRecruitmentType = filterConfigData.recruitmentType_filter;
-    // }
+    if (filterConfigData.recruitmentType_filter.length) {
+        selectedRecruitmentType = filterConfigData.recruitmentType_filter;
+    }
 
-    // if (selectedRecruitmentType.length !== 0) {
-    //     filteredRecordsArray_10.forEach((el, index) => {
-    //         let addFlag = false;
+    if (selectedRecruitmentType.length !== 0) {
+        filteredRecordsArray_10.forEach((el, index) => {
+            let addFlag = false;
 
-    //         selectedRecruitmentType.forEach((selectedFiltr) => {
-    //             if (el.recruitmentType === selectedFiltr) {
-    //                 addFlag = true;
-    //             }
-    //         });
+            selectedRecruitmentType.forEach((selectedFiltr) => {
+                if (el.recruitmentType === selectedFiltr) {
+                    addFlag = true;
+                }
+            });
 
-    //         if (addFlag) {
-    //             filteredRecordsArray_11.push(el);
-    //         }
-    //     });
-    // } else {
-    //     filteredRecordsArray_11 = filteredRecordsArray_10;
-    // }
+            if (addFlag) {
+                filteredRecordsArray_11.push(el);
+            }
+        });
+    } else {
+        filteredRecordsArray_11 = filteredRecordsArray_10;
+    }
 
-    // recordsNumber = filteredRecordsArray_11.length;
-    recordsNumber = filteredRecordsArray_1.length;
+    recordsNumber = filteredRecordsArray_11.length;
+
     // summariseDownload(recordsNumber);
-    // createRecordBoxes(filteredRecordsArray_11, 0, recordsOnPage);
-    createRecordBoxes(filteredRecordsArray_1, 0, recordsOnPage);
+    createRecordBoxes(filteredRecordsArray_11, 0, recordsOnPage);
+  
     setPages(recordsNumber);
     filtersON = true;
-    hideFilter();
+    // hideFilter();
     
-    setTimeout(setParentIframeHeight, 1000);
+    // setTimeout(setParentIframeHeight, 1000);
     
 };
 
@@ -902,7 +913,7 @@ const changePage = (pageBtn) => {
         ? createRecordBoxes(filteredRecordsArray_11, firstRecord, lastRecord)
         : createRecordBoxes(allRecordsArray, firstRecord, lastRecord);
     globActivePageNo = parseInt(pageBtn.innerText);
-    setTimeout(setParentIframeHeight(), 500);
+    // setTimeout(setParentIframeHeight(), 500);
 };
 
 // RWD /////////////////////////////////////////////////////////////
