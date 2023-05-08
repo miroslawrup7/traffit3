@@ -16,8 +16,8 @@ const recordsOnPageLoc = document.querySelector(".records-on-page");
 const pagesSwitchLoc = document.querySelector(".pages");
 
 const brancheWrapperLoc = document.querySelector(".sector");
-const brancheListLoc = document.querySelector(".sector .list");
 const branchesLoc = document.querySelector(".sector ul");
+const jobFormLoc = document.querySelector(".employment-form ul"); 
 
 cityListBtnLoc.addEventListener("click", () => {
     cityListLoc.classList.toggle("expand");
@@ -56,6 +56,7 @@ let recordsNumber = 0;
 let recordsOnPage = 20;
 let filtersON = false;
 let filterBranchesList = [];
+let filterJobFormList = [];
 let filterListMaxHeight = 0;
 
 recordsOnPageLoc.value = recordsOnPage;
@@ -584,25 +585,34 @@ const createFilterLists = (filterConfigData) => {
         });
     }
 
-    // if (filterJobFormList.length > 0) {
-    //     filterJobFormList.sort(function (a, b) {
-    //         return a.localeCompare(b);
-    //     });
-    //     rowHeight = filterJobFormList.length * 21 + 3;
-    //     // if (getMobileOperatingSystem() === "unknown") {
-    //         jobFormLoc.style.height = String(rowHeight) + "px";
-    //     // } else if (isSamsungBrowser || isChromeBrowser) {
-    //     //     jobFormLoc.style.height = "50px";
-    //     // } else {
-    //     //     jobFormLoc.style.height = String(rowHeight) + "px";
-    //     // }
-    //     filterJobFormList.forEach(function (el) {
-    //         jobFormLoc.insertAdjacentHTML(
-    //             "beforeend",
-    //             `<option value="${el}">${el}</option>`
-    //         );
-    //     });
-    // }
+    if (filterJobFormList.length > 0) {
+        console.log(filterJobFormList)
+        filterJobFormList.sort(function (a, b) {
+            return a.localeCompare(b);
+        });
+        rowHeight = filterJobFormList.length * 21 + 3;
+        // if (getMobileOperatingSystem() === "unknown") {
+            // jobFormLoc.style.height = String(rowHeight) + "px";
+        // } else if (isSamsungBrowser || isChromeBrowser) {
+        //     jobFormLoc.style.height = "50px";
+        // } else {
+        //     jobFormLoc.style.height = String(rowHeight) + "px";
+        // }
+        filterJobFormList.forEach(function (el) {
+            jobFormLoc.insertAdjacentHTML(
+                "beforeend",
+                `<li>
+                <div class="checkbox-container-small">
+                    <label class="checkbox">
+                        <input type="checkbox" id="employment-form-${el}" name="employment-form-${el}" value="employment-form-${el}">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="label-text" for="employment-form-${el}">${el}</label>
+                </div>
+            </li>`
+            );
+        });
+    }
 
     // if (filterJobTypeList.length > 0) {
     //     filterJobTypeList.sort(function (a, b) {
@@ -1010,13 +1020,13 @@ const createDataForFilters = (
        
     }
 
-    // if (jobForm) {
-    //     jobForm.forEach(function (elem) {
-    //         if (filterJobFormList.indexOf(elem) === -1) {
-    //             filterJobFormList.push(elem);
-    //         }
-    //     });
-    // }
+    if (jobForm) {
+        jobForm.forEach(function (elem) {
+            if (filterJobFormList.indexOf(elem) === -1) {
+                filterJobFormList.push(elem);
+            }
+        });
+    }
 
     // if (filterJobTypeList.indexOf(jobType) === -1 && jobType !== undefined) {
     //     filterJobTypeList.push(jobType);
