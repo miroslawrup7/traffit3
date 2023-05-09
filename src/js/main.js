@@ -41,32 +41,32 @@ const searchBtn = document.querySelector(".search-btn");
 const advancedSearchBtn = document.querySelector(".advanced-search-btn .arrow-down");
 const advancedContainer = document.querySelector(".advanced-container");
 
-cityListBtnLoc.addEventListener("click", () => {
+cityLoc.addEventListener("click", () => {
     cityListLoc.classList.toggle("expand");
     cityListBtnLoc.classList.toggle("rotate180")
 })
 
-distanceListBtnLoc.addEventListener("click", () => {
+distanceLoc.addEventListener("click", () => {
     distanceListLoc.classList.toggle("expand");
     distanceListBtnLoc.classList.toggle("rotate180")
 })
 
-sectorListBtnLoc.addEventListener("click", () => {
+sectorLoc.addEventListener("click", () => {
     sectorListLoc.classList.toggle("expand");
     sectorListBtnLoc.classList.toggle("rotate180")
 })
 
-employmentFormListBtnLoc.addEventListener("click", () => {
+employmentFormLoc.addEventListener("click", () => {
     employmentFormListLoc.classList.toggle("expand");
     employmentFormListBtnLoc.classList.toggle("rotate180")
 })
 
-workingHoursListBtnLoc.addEventListener("click", () => {
+workingHoursLoc.addEventListener("click", () => {
     workingHoursListLoc.classList.toggle("expand");
     workingHoursListBtnLoc.classList.toggle("rotate180")
 })
 
-languageListBtnLoc.addEventListener("click", () => {
+languageLoc.addEventListener("click", () => {
     languageListLoc.classList.toggle("expand");
     languageListBtnLoc.classList.toggle("rotate180")
 })
