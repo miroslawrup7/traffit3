@@ -492,47 +492,50 @@ const createFilteredRecordsArray = () => {
     let filteredRecordsArray_6 = filteredRecordsArray_4;
 
     // selectedCity & selectedDistance ////////////////
-
     let selectedCity = [];
 
     if (filterConfigData.location_city_filter.length) {
         selectedCity = filterConfigData.location_city_filter;
     } else {
-        // if (locationMarkLoc.checked) {
-            selectedCity = Array.from(citiesChildrenLoc)
-                .filter(function (elem) {
-                    if (elem.value) {
-                        return elem.checked;
-                    }
-                })
-                .map(function (elem) {
-                    if (elem.value) {
-                        return elem.value;
-                    }
-                });
 
-                console.log(selectedCity)
-        // }
+        selectedCity = Array.from(citiesChildrenLoc)
+            .filter(function (elem) {
+                if (elem.value) {
+                    return elem.checked;
+                }
+            })
+            .map(function (elem) {
+                if (elem.value) {
+                    return elem.value;
+                }
+            });
+
+        console.log(selectedCity)
+        console.log(filteredRecordsArray_6)
+
     }
 
     let filteredRecordsArray_7 = [];
 
-    if (filterConfigData.location_city_filter.length) {
-        if (selectedCity.length) {
-            
-            let selectedDistance = parseInt(distanceTitleLoc.dataset.distance);
+    if (selectedCity.length) {
+        
+        let selectedDistance = parseInt(distanceTitleLoc.dataset.distance);
 
-            let lati;
-            let longi;
-            let min_lati;
-            let max_lati;
-            let min_longi;
-            let max_longi;
+        console.log(selectedDistance)
 
-            filteredRecordsArray_6.forEach((el, index) => {
-                if (el.city === selectedCity[0]) {
-                    lati = el.lati;
-                    longi = el.longi;
+        let lati;
+        let longi;
+        let min_lati;
+        let max_lati;
+        let min_longi;
+        let max_longi;
+
+        selectedCity.forEach((el_city) => {
+            filteredRecordsArray_6.forEach((el_record, index) => {
+                if (el_city === el_record.city) {
+
+                    lati = el_record.lati;
+                    longi = el_record.longi;
 
                     min_lati = lati - selectedDistance * 0.009044;
                     max_lati = lati + selectedDistance * 0.009044;
@@ -541,29 +544,22 @@ const createFilteredRecordsArray = () => {
                 }
             });
 
-            filteredRecordsArray_6.forEach((el, index) => {
-                let addFlag = false;
-
+            filteredRecordsArray_6.forEach((el_record, index) => {
                 if (
-                    el.lati <= max_lati &&
-                    el.lati >= min_lati &&
-                    el.longi <= max_longi &&
-                    el.longi >= min_longi
+                    el_record.lati <= max_lati &&
+                    el_record.lati >= min_lati &&
+                    el_record.longi <= max_longi &&
+                    el_record.longi >= min_longi
                 ) {
-                    addFlag = true;
+                    filteredRecordsArray_7.push(el_record);
                 }
-
-                if (addFlag) {
-                    filteredRecordsArray_7.push(el);
-                }
-            });
-        } else {
-            filteredRecordsArray_7 = filteredRecordsArray_6;
-        }
+            })
+        })
+        
     } else {
         filteredRecordsArray_7 = filteredRecordsArray_6;
     }
-
+   
     // selectedRemote ////////////////
 
     let filteredRecordsArray_8 = [];

@@ -179,6 +179,7 @@ main {
                     top: 15px;
                     height: 20px;
                     display: flex;
+                    cursor: pointer;
 
                     &.big {
                         height: 26px;
@@ -443,6 +444,7 @@ main {
                     font-family: 'Poppins600', Helvetica, Arial, Lucida, sans-serif;
                     font-size: 25px;
                     border-radius: 15px;
+                    cursor: pointer;
                 }
 
                 &.remote {
