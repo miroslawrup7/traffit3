@@ -32,6 +32,11 @@ const distanceTitleLoc = document.querySelector(".distance .list-title");
 
 const searchBtn = document.querySelector(".search-btn");
 
+const advancedSearchBtn = document.querySelector(".advanced-search-btn .arrow-down");
+const threeWrapper = document.querySelector(".wrapper.three");
+const fourWrapper = document.querySelector(".wrapper.four");
+const advancedContainer = document.querySelector(".advanced-container");
+
 cityListBtnLoc.addEventListener("click", () => {
     cityListLoc.classList.toggle("expand");
 })
@@ -1168,6 +1173,8 @@ const createAwardedRecordBoxes = (recordsArray, filterConfigData) => {
                 );
             }
         }
+    } else {
+        awardedResultsLoc.style.margin = "0"
     }
 };
 
@@ -1434,3 +1441,9 @@ recordsOnPageLoc.addEventListener("change", (e) => {
 
 // SEARCH LISTENER /////////////////////////////////////////////////////////////
 searchBtn.addEventListener("click", createFilteredRecordsArray);
+
+advancedSearchBtn.addEventListener("click", () => {
+    advancedContainer.classList.toggle("showed");
+    advancedSearchBtn.classList.toggle("rotate180");
+   
+})

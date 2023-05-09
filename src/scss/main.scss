@@ -94,6 +94,29 @@ main {
         // border: 1px red solid;
         width: 100%;
 
+        .advanced-container {
+            order: 3;
+            width: 100%;
+            height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.6s;
+
+            &.showed {
+                height: 136px;
+                opacity: 1;
+                overflow: visible;
+            }
+
+            .three {
+                width: 100%;
+            }
+
+            .four {
+                width: 100%;
+            }
+        }
+
         .wrapper {
             height: fit-content;
             display: flex;
@@ -111,20 +134,9 @@ main {
                 order: 2;
             }
 
-            &.three {
-                width: 100%;
-                order: 3;
-            }
-
-            &.four {
-                width: 100%;
-                height: fit-content;
-                order: 3;
-            }
-
             &.five {
                 width: 100%;
-                margin-top: 36px;
+                margin-top: 24px;
                 display: flex;
                 justify-content: center;
                 order: 4;
@@ -180,10 +192,15 @@ main {
                     height: 20px;
                     display: flex;
                     cursor: pointer;
+                    transition: all 0.5s;
 
                     &.big {
                         height: 26px;
                         right: -32px;
+                    }
+
+                    &.rotate180 {
+                        transform: rotate(180deg);
                     }
                 }
 
@@ -840,6 +857,13 @@ main {
         }
 
         .filters-container {
+            .advanced-container {
+
+                &.showed {
+                    height: 194px;
+                }
+            }
+
             .wrapper {
 
                 &.one {
@@ -940,6 +964,13 @@ main {
         }
 
         .filters-container {
+            .advanced-container {
+
+                &.showed {
+                    height: 400px;
+                }
+            }
+
             .wrapper {
 
                 .arrow-down {
