@@ -977,6 +977,160 @@ const changePage = (pageBtn) => {
     // setTimeout(setParentIframeHeight(), 500);
 };
 
+let globActivePageNo;
+
+const movePrevPagesBtns = () => {
+    let firstDispalyedPageNo = parseInt(
+        Array.from(document.querySelectorAll(".page")).shift().innerText
+    );
+    let lastDispalyedPageNo = parseInt(
+        Array.from(document.querySelectorAll(".page")).pop().innerText
+    );
+
+    let activePageNo;
+    activePageNo = document.querySelector(".page.active");
+
+    if (activePageNo) {
+        activePageNo = parseInt(activePageNo.innerText);
+    }
+
+    if (firstDispalyedPageNo > 1) {
+        pagesSwitchLoc.replaceChildren();
+
+        for (n = firstDispalyedPageNo - 1; n <= lastDispalyedPageNo - 1; n++) {
+            if (!activePageNo) {
+                activePageNo = globActivePageNo;
+            }
+            if (activePageNo && n === activePageNo) {
+                pagesSwitchLoc.insertAdjacentHTML(
+                    "beforeend",
+                    `<div class="page active">${n}</div>`
+                );
+            } else {
+                pagesSwitchLoc.insertAdjacentHTML(
+                    "beforeend",
+                    `<div class="page">${n}</div>`
+                );
+            }
+        }
+
+        if (lastDispalyedPageNo < pagesQuantityCalc + 1) {
+            pagesSwitchLoc.insertAdjacentHTML(
+                "beforeend",
+                `<div class="next active"><img src="./img/chevron-right.svg" alt="" /></div>`
+            );
+            let nextBtnLoc = document.querySelector(".next");
+            nextBtnLoc.addEventListener("click", () => {
+                moveNextPagesBtns();
+            });
+        } else {
+            pagesSwitchLoc.insertAdjacentHTML(
+                "beforeend",
+                `<div class="next"><img src="" alt="" /></div>`
+            );
+        }
+
+        if (firstDispalyedPageNo > 2) {
+            pagesSwitchLoc.insertAdjacentHTML(
+                "afterbegin",
+                `<div class="prev active"><img src="./img/chevron-left.svg" alt="" /></div>`
+            );
+            let prevBtnLoc = document.querySelector(".prev");
+            prevBtnLoc.addEventListener("click", () => {
+                movePrevPagesBtns();
+            });
+        } else {
+            pagesSwitchLoc.insertAdjacentHTML(
+                "afterbegin",
+                `<div class="prev"><img src="" alt="" /></div>`
+            );
+        }
+
+        pageButtonsLoc = document.querySelectorAll(".page");
+        pageButtonsLoc.forEach((el) => {
+            el.addEventListener("click", (e) => {
+                changePage(e.target);
+            });
+        });
+    }
+};
+
+const moveNextPagesBtns = () => {
+    let firstDispalyedPageNo = parseInt(
+        Array.from(document.querySelectorAll(".page")).shift().innerText
+    );
+    let lastDispalyedPageNo = parseInt(
+        Array.from(document.querySelectorAll(".page")).pop().innerText
+    );
+
+    let activePageNo;
+    activePageNo = document.querySelector(".page.active");
+    if (activePageNo) {
+        activePageNo = parseInt(activePageNo.innerText);
+        globActivePageNo = activePageNo;
+    }
+
+    if (lastDispalyedPageNo < pagesQuantityCalc) {
+        pagesSwitchLoc.replaceChildren();
+
+        for (n = firstDispalyedPageNo + 1; n <= lastDispalyedPageNo + 1; n++) {
+            if (!activePageNo) {
+                activePageNo = globActivePageNo;
+            }
+            if (activePageNo && n === activePageNo) {
+                pagesSwitchLoc.insertAdjacentHTML(
+                    "beforeend",
+                    `<div class="page active">${n}</div>`
+                );
+            } else {
+                pagesSwitchLoc.insertAdjacentHTML(
+                    "beforeend",
+                    `<div class="page">${n}</div>`
+                );
+            }
+        }
+
+        if (lastDispalyedPageNo < pagesQuantityCalc - 1) {
+            pagesSwitchLoc.insertAdjacentHTML(
+                "beforeend",
+                `<div class="next active"><img src="./img/chevron-right.svg" alt="" /></div>`
+            );
+            let nextBtnLoc = document.querySelector(".next");
+            nextBtnLoc.addEventListener("click", () => {
+                moveNextPagesBtns();
+            });
+        } else {
+            pagesSwitchLoc.insertAdjacentHTML(
+                "beforeend",
+                `<div class="next"><img src="" alt="" /></div>`
+            );
+        }
+
+        if (firstDispalyedPageNo > 0) {
+            pagesSwitchLoc.insertAdjacentHTML(
+                "afterbegin",
+                `<div class="prev active"><img src="./img/chevron-left.svg" alt="" /></div>`
+            );
+            let prevBtnLoc = document.querySelector(".prev");
+            prevBtnLoc.addEventListener("click", () => {
+                movePrevPagesBtns();
+            });
+        } else {
+            pagesSwitchLoc.insertAdjacentHTML(
+                "afterbegin",
+                `<div class="prev"><img src="" alt="" /></div>`
+            );
+        }
+
+        pageButtonsLoc = document.querySelectorAll(".page");
+        pageButtonsLoc.forEach((el) => {
+            el.addEventListener("click", (e) => {
+                changePage(e.target);
+            });
+        });
+    }
+};
+
 // RWD /////////////////////////////////////////////////////////////
 function getWidth() {
     return Math.max(
@@ -996,24 +1150,6 @@ function getHeight() {
         document.documentElement.offsetHeight,
         document.documentElement.clientHeight
     );
-}
-
-let maxPageBtns;
-
-if (getWidth() < 500) {
-    maxPageBtns = 6;
-}
-if (getWidth() >= 500 && getWidth() < 700) {
-    maxPageBtns = 8;
-}
-if (getWidth() > 700 && getWidth() < 900) {
-    maxPageBtns = 10;
-}
-if (getWidth() > 900 && getWidth() < 1024) {
-    maxPageBtns = 15;
-}
-if (getWidth() > 1024) {
-    maxPageBtns = 20;
 }
 
 let pagesQuantityCalc;
@@ -1080,6 +1216,42 @@ const setPages = (recordsNumber) => {
         });
     });
 };
+
+let maxPageBtns;
+
+const setPagesBtnQuantity = () => {
+   
+    if (getWidth() < 500) {
+        maxPageBtns = 3;
+    }
+    if (getWidth() >= 500 && getWidth() < 650) {
+        maxPageBtns = 3;
+    }
+    if (getWidth() >= 650 && getWidth() < 750) {
+        maxPageBtns = 4;
+    }
+    if (getWidth() >= 750 && getWidth() < 950) {
+        maxPageBtns = 7;
+    }
+    if (getWidth() >= 950 && getWidth() < 1200) {
+        maxPageBtns = 12;
+    }
+    if (getWidth() >= 1200) {
+        maxPageBtns = 15;
+    }
+
+    setPages(recordsNumber);
+
+    console.log(getWidth())
+}
+
+window.addEventListener("resize", () => {
+    setPagesBtnQuantity();
+});
+
+setPagesBtnQuantity();
+
+
 
 // create AWARDED RECORDS BOXES ///////////////////////////////////////////////
 const createAwardedRecordBoxes = (recordsArray, filterConfigData) => {
