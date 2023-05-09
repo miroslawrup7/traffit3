@@ -1,13 +1,19 @@
+const cityLoc = document.querySelector(".city");
 const cityListBtnLoc = document.querySelector(".city .arrow-down");
 const cityListLoc = document.querySelector(".city .list");
+const distanceLoc = document.querySelector(".distance");
 const distanceListBtnLoc = document.querySelector(".distance .arrow-down");
 const distanceListLoc = document.querySelector(".distance .list");
+const sectorLoc = document.querySelector(".sector");
 const sectorListBtnLoc = document.querySelector(".sector .arrow-down");
 const sectorListLoc = document.querySelector(".sector .list");
+const employmentFormLoc = document.querySelector(".employment-form");
 const employmentFormListBtnLoc = document.querySelector(".employment-form .arrow-down");
 const employmentFormListLoc = document.querySelector(".employment-form .list");
+const workingHoursLoc = document.querySelector(".working-hours");
 const workingHoursListBtnLoc = document.querySelector(".working-hours .arrow-down");
 const workingHoursListLoc = document.querySelector(".working-hours .list");
+const languageLoc = document.querySelector(".language");
 const languageListBtnLoc = document.querySelector(".language .arrow-down");
 const languageListLoc = document.querySelector(".language .list");
 
@@ -33,33 +39,79 @@ const distanceTitleLoc = document.querySelector(".distance .list-title");
 const searchBtn = document.querySelector(".search-btn");
 
 const advancedSearchBtn = document.querySelector(".advanced-search-btn .arrow-down");
-const threeWrapper = document.querySelector(".wrapper.three");
-const fourWrapper = document.querySelector(".wrapper.four");
 const advancedContainer = document.querySelector(".advanced-container");
 
 cityListBtnLoc.addEventListener("click", () => {
     cityListLoc.classList.toggle("expand");
+    cityListBtnLoc.classList.toggle("rotate180")
 })
 
 distanceListBtnLoc.addEventListener("click", () => {
     distanceListLoc.classList.toggle("expand");
+    distanceListBtnLoc.classList.toggle("rotate180")
 })
 
 sectorListBtnLoc.addEventListener("click", () => {
     sectorListLoc.classList.toggle("expand");
+    sectorListBtnLoc.classList.toggle("rotate180")
 })
 
 employmentFormListBtnLoc.addEventListener("click", () => {
     employmentFormListLoc.classList.toggle("expand");
+    employmentFormListBtnLoc.classList.toggle("rotate180")
 })
 
 workingHoursListBtnLoc.addEventListener("click", () => {
     workingHoursListLoc.classList.toggle("expand");
+    workingHoursListBtnLoc.classList.toggle("rotate180")
 })
 
 languageListBtnLoc.addEventListener("click", () => {
     languageListLoc.classList.toggle("expand");
+    languageListBtnLoc.classList.toggle("rotate180")
 })
+
+
+
+
+cityLoc.addEventListener("mouseleave", () => {
+    cityListLoc.classList.remove("expand");
+    cityListBtnLoc.classList.remove("rotate180")
+})
+
+distanceLoc.addEventListener("mouseleave", () => {
+    distanceListLoc.classList.remove("expand");
+    distanceListBtnLoc.classList.remove("rotate180")
+})
+
+sectorLoc.addEventListener("mouseleave", () => {
+    sectorListLoc.classList.remove("expand");
+    sectorListBtnLoc.classList.remove("rotate180")
+})
+
+employmentFormLoc.addEventListener("mouseleave", () => {
+    employmentFormListLoc.classList.remove("expand");
+    employmentFormListBtnLoc.classList.remove("rotate180")
+})
+
+workingHoursLoc.addEventListener("mouseleave", () => {
+    workingHoursListLoc.classList.remove("expand");
+    workingHoursListBtnLoc.classList.remove("rotate180")
+})
+
+languageLoc.addEventListener("mouseleave", () => {
+    languageListLoc.classList.remove("expand");
+    languageListBtnLoc.classList.remove("rotate180")
+})
+
+
+
+
+
+
+
+
+
 
 
 

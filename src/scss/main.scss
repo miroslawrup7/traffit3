@@ -327,6 +327,7 @@ main {
                             display: flex;
                             overflow-y: auto;
                             // border: 1px solid pink;
+                            transition: all 0.3s;
 
                             &.expand {
                                 max-height: 400px;
