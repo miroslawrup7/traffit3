@@ -303,8 +303,6 @@ const createFilteredRecordsArray = () => {
 
     let selectedBranches = [];
 
-    console.log(branchesChildrenLoc)
-
     if (filterConfigData.branche_filter.length) {
         selectedBranches = filterConfigData.branche_filter;
     } else {
@@ -316,8 +314,6 @@ const createFilteredRecordsArray = () => {
                 return elem.value;
             });
     }
-
-    console.log(selectedBranches)
 
     let filteredRecordsArray_1 = [];
 
@@ -339,13 +335,9 @@ const createFilteredRecordsArray = () => {
         filteredRecordsArray_1 = filteredRecordsArray;
     }
 
-    console.log("filteredRecordsArray_1", filteredRecordsArray_1)
-
     // selectedJobForms ////////////////
 
     let selectedJobForms = [];
-
-    console.log(jobFormChildrenLoc)
 
     selectedJobForms = Array.from(jobFormChildrenLoc)
         .filter(function (elem) {
@@ -354,8 +346,6 @@ const createFilteredRecordsArray = () => {
         .map(function (elem) {
             return elem.value;
         });
-
-        console.log(selectedJobForms)
 
     let filteredRecordsArray_2 = [];
 
@@ -378,8 +368,6 @@ const createFilteredRecordsArray = () => {
     } else {
         filteredRecordsArray_2 = filteredRecordsArray_1;
     }
-
-    console.log("filteredRecordsArray_2", filteredRecordsArray_2)
 
     // selectedJobTypes ////////////////
 
@@ -567,9 +555,6 @@ const createFilteredRecordsArray = () => {
                 }
             });
 
-        console.log(selectedCity)
-        console.log(filteredRecordsArray_6)
-
     }
 
     let filteredRecordsArray_7 = [];
@@ -577,8 +562,6 @@ const createFilteredRecordsArray = () => {
     if (selectedCity.length) {
         
         let selectedDistance = parseInt(distanceTitleLoc.dataset.distance);
-
-        console.log(selectedDistance)
 
         let lati;
         let longi;
@@ -888,7 +871,6 @@ const createFilterLists = (filterConfigData) => {
         });
     }
 
-    console.log(filterCountriesList);
 
     if (Object.keys(filterCountriesList).length > 0) {
         // countriesLoc.insertAdjacentHTML(
@@ -1242,7 +1224,6 @@ const setPagesBtnQuantity = () => {
 
     setPages(recordsNumber);
 
-    console.log(getWidth())
 }
 
 window.addEventListener("resize", () => {
@@ -1261,8 +1242,6 @@ const createAwardedRecordBoxes = (recordsArray, filterConfigData) => {
     let awardedRecordsArray = recordsArray.filter((elem) => {
         return elem.awarded;  
     });
-
-    console.log(awardedRecordsArray)
 
     if (awardedRecordsArray.length > 0) {
 
@@ -1606,16 +1585,13 @@ const loopOnAPI = (jsonData, filterConfigData) => {
     if (jsonData.length > 0) {
         rawAPIArray = rawAPIArray.concat(jsonData);
         apiPage++;
-        console.log("rawAPIArray", rawAPIArray)
         createRecordsObjFromAPI(apiPage, filterConfigData);
     } else {
         reworkData(rawAPIArray);
-        console.log("allRecordsArray", allRecordsArray)
         recordsNumber = rawAPIArray.length;
-        console.log("recordsNumber", recordsNumber)
-        // summariseDownload(recordsNumber); // not used
-        createAwardedRecordBoxes(allRecordsArray, filterConfigData); // obecnie brak wyróżnionych ogłoszeń - wymagane ostylowanie css gdy się pojawią
-        setPages(recordsNumber); // trzeba dokończyć listenery na utworzonych buttonach
+        // summariseDownload(recordsNumber);
+        createAwardedRecordBoxes(allRecordsArray, filterConfigData);
+        setPages(recordsNumber);
         createFilterLists(filterConfigData);
         // dropDownBtnStart();
         // pagesContainerStart();
@@ -1641,7 +1617,6 @@ async function readConfigFilter() {
     try {
         const rawData = await getConfigFilter();
         filterConfigData = await rawData.json();
-        console.log("filterConfigData", filterConfigData)
         createRecordsObjFromAPI(apiPage, filterConfigData);
     } catch (e) {
         console.error(e);
