@@ -38,6 +38,7 @@ const distanceTitleLoc = document.querySelector(".distance .list-title");
 
 const searchBtn = document.querySelector(".search-btn");
 
+const advancedSearchBar = document.querySelector(".wrapper.five");
 const advancedSearchBtn = document.querySelector(".advanced-search-btn .arrow-down");
 const advancedContainer = document.querySelector(".advanced-container");
 
@@ -105,19 +106,6 @@ languageLoc.addEventListener("mouseleave", () => {
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 let filterConfigData = {};
 let apiPage = 1;
 let rawAPIArray = [];
@@ -141,12 +129,6 @@ distanceInputsLoc.forEach((elem) => {
         distanceTitleLoc.dataset.distance = Number(elem.value);
     })
 })
-
-
-
-
-
-
 
 
 recordsOnPageLoc.value = recordsOnPage;
@@ -1641,7 +1623,7 @@ recordsOnPageLoc.addEventListener("change", (e) => {
 // SEARCH LISTENER /////////////////////////////////////////////////////////////
 searchBtn.addEventListener("click", createFilteredRecordsArray);
 
-advancedSearchBtn.addEventListener("click", () => {
+advancedSearchBar.addEventListener("click", () => {
     advancedContainer.classList.toggle("showed");
     advancedSearchBtn.classList.toggle("rotate180");
    
