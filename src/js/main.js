@@ -42,38 +42,37 @@ const advancedSearchBar = document.querySelector(".wrapper.five");
 const advancedSearchBtn = document.querySelector(".advanced-search-btn .arrow-down");
 const advancedContainer = document.querySelector(".advanced-container");
 
+
+
 cityLoc.addEventListener("click", () => {
     cityListLoc.classList.toggle("expand");
-    cityListBtnLoc.classList.toggle("rotate180")
+    cityListBtnLoc.classList.toggle("rotate180");
 })
 
 distanceLoc.addEventListener("click", () => {
     distanceListLoc.classList.toggle("expand");
-    distanceListBtnLoc.classList.toggle("rotate180")
+    distanceListBtnLoc.classList.toggle("rotate180");
 })
 
 sectorLoc.addEventListener("click", () => {
     sectorListLoc.classList.toggle("expand");
-    sectorListBtnLoc.classList.toggle("rotate180")
+    sectorListBtnLoc.classList.toggle("rotate180");
 })
 
 employmentFormLoc.addEventListener("click", () => {
     employmentFormListLoc.classList.toggle("expand");
-    employmentFormListBtnLoc.classList.toggle("rotate180")
+    employmentFormListBtnLoc.classList.toggle("rotate180");
 })
 
 workingHoursLoc.addEventListener("click", () => {
     workingHoursListLoc.classList.toggle("expand");
-    workingHoursListBtnLoc.classList.toggle("rotate180")
+    workingHoursListBtnLoc.classList.toggle("rotate180");
 })
 
 languageLoc.addEventListener("click", () => {
     languageListLoc.classList.toggle("expand");
-    languageListBtnLoc.classList.toggle("rotate180")
+    languageListBtnLoc.classList.toggle("rotate180");
 })
-
-
-
 
 cityLoc.addEventListener("mouseleave", () => {
     cityListLoc.classList.remove("expand");
