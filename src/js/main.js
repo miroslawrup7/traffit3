@@ -75,36 +75,55 @@ if (!event.target.value) {
 }
 })
 
+const removePaddingBottomToFilterList = (filterList) => {
+    filterList.closest(".element").style.paddingBottom = ""
+    filterList.closest(".element").style.boxShadow = "";
+}
 
+const addPaddingBottomToFilterList = (filterList) => {
+    if (filterList.closest(".element").style.paddingBottom === "" ) {
+        filterList.closest(".element").style.paddingBottom = "15px"
+        filterList.closest(".element").style.boxShadow = "0px 0px 3px rgba(0,0,0,0.1)";
+    } else {
+        removePaddingBottomToFilterList(filterList)
+    }
+}
 
 cityListTitleLoc.addEventListener("click", () => {
     cityListLoc.classList.toggle("expand");
     cityListBtnLoc.classList.toggle("rotate180");
+    addPaddingBottomToFilterList(cityListTitleLoc)
 })
 
 distanceListTitleLoc.addEventListener("click", () => {
     distanceListLoc.classList.toggle("expand");
     distanceListBtnLoc.classList.toggle("rotate180");
+    addPaddingBottomToFilterList(distanceListTitleLoc)
 })
 
 sectorListTitleLoc.addEventListener("click", () => {
     sectorListLoc.classList.toggle("expand");
     sectorListBtnLoc.classList.toggle("rotate180");
+    addPaddingBottomToFilterList(sectorListTitleLoc)
 })
 
 employmentFormListTitleLoc.addEventListener("click", () => {
     employmentFormListLoc.classList.toggle("expand");
     employmentFormListBtnLoc.classList.toggle("rotate180");
+    addPaddingBottomToFilterList(employmentFormListTitleLoc)
+    
 })
 
 workingHoursListTitleLoc.addEventListener("click", () => {
     workingHoursListLoc.classList.toggle("expand");
     workingHoursListBtnLoc.classList.toggle("rotate180");
+    addPaddingBottomToFilterList(workingHoursListTitleLoc)
 })
 
 languageListTitleLoc.addEventListener("click", () => {
     languageListLoc.classList.toggle("expand");
     languageListBtnLoc.classList.toggle("rotate180");
+    addPaddingBottomToFilterList(languageListTitleLoc)
 })
 
 
@@ -112,31 +131,37 @@ languageListTitleLoc.addEventListener("click", () => {
 cityLoc.addEventListener("mouseleave", () => {
     cityListLoc.classList.remove("expand");
     cityListBtnLoc.classList.remove("rotate180")
+    removePaddingBottomToFilterList(cityListTitleLoc)
 })
 
 distanceLoc.addEventListener("mouseleave", () => {
     distanceListLoc.classList.remove("expand");
     distanceListBtnLoc.classList.remove("rotate180")
+    removePaddingBottomToFilterList(distanceListTitleLoc)
 })
 
-// sectorLoc.addEventListener("mouseleave", () => {
-//     sectorListLoc.classList.remove("expand");
-//     sectorListBtnLoc.classList.remove("rotate180")
-// })
+sectorLoc.addEventListener("mouseleave", () => {
+    sectorListLoc.classList.remove("expand");
+    sectorListBtnLoc.classList.remove("rotate180")
+    removePaddingBottomToFilterList(sectorListTitleLoc)
+})  
 
 employmentFormLoc.addEventListener("mouseleave", () => {
     employmentFormListLoc.classList.remove("expand");
     employmentFormListBtnLoc.classList.remove("rotate180")
+    removePaddingBottomToFilterList(employmentFormListTitleLoc)
 })
 
-// workingHoursLoc.addEventListener("mouseleave", () => {
-//     workingHoursListLoc.classList.remove("expand");
-//     workingHoursListBtnLoc.classList.remove("rotate180")
-// })
+workingHoursLoc.addEventListener("mouseleave", () => {
+    workingHoursListLoc.classList.remove("expand");
+    workingHoursListBtnLoc.classList.remove("rotate180")
+    removePaddingBottomToFilterList(workingHoursListTitleLoc)
+})
 
 languageLoc.addEventListener("mouseleave", () => {
     languageListLoc.classList.remove("expand");
     languageListBtnLoc.classList.remove("rotate180")
+    removePaddingBottomToFilterList(languageListTitleLoc)
 })
 
 
