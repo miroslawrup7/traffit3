@@ -17,21 +17,25 @@ const distanceListLoc = document.querySelector(".distance .list");
 const sectorLoc = document.querySelector(".sector");
 const sectorListBtnLoc = document.querySelector(".sector .arrow-down");
 const sectorListTitleLoc = document.querySelector(".sector .list-title");
+const sectorSelectedOptionsLoc = document.querySelector(".sector .selected-options");
 const sectorListLoc = document.querySelector(".sector .list");
 
 const employmentFormLoc = document.querySelector(".employment-form");
 const employmentFormListBtnLoc = document.querySelector(".employment-form .arrow-down");
 const employmentFormListTitleLoc = document.querySelector(".employment-form .list-title");
+const employmentFormSelectedOptionsLoc = document.querySelector(".employment-form .selected-options");
 const employmentFormListLoc = document.querySelector(".employment-form .list");
 
 const workingHoursLoc = document.querySelector(".working-hours");
 const workingHoursListBtnLoc = document.querySelector(".working-hours .arrow-down");
 const workingHoursListTitleLoc = document.querySelector(".working-hours .list-title");
+const workingHoursSelectedOptionsLoc = document.querySelector(".working-hours .selected-options");
 const workingHoursListLoc = document.querySelector(".working-hours .list");
 
 const languageLoc = document.querySelector(".language");
 const languageListBtnLoc = document.querySelector(".language .arrow-down");
 const languageListTitleLoc = document.querySelector(".language .list-title");
+const languageSelectedOptionsLoc = document.querySelector(".language .selected-options");
 const languageListLoc = document.querySelector(".language .list");
 
 const awardedResultsLoc = document.querySelector(".awarded");
@@ -115,20 +119,20 @@ distanceLoc.addEventListener("mouseleave", () => {
     distanceListBtnLoc.classList.remove("rotate180")
 })
 
-sectorLoc.addEventListener("mouseleave", () => {
-    sectorListLoc.classList.remove("expand");
-    sectorListBtnLoc.classList.remove("rotate180")
-})
+// sectorLoc.addEventListener("mouseleave", () => {
+//     sectorListLoc.classList.remove("expand");
+//     sectorListBtnLoc.classList.remove("rotate180")
+// })
 
 employmentFormLoc.addEventListener("mouseleave", () => {
     employmentFormListLoc.classList.remove("expand");
     employmentFormListBtnLoc.classList.remove("rotate180")
 })
 
-workingHoursLoc.addEventListener("mouseleave", () => {
-    workingHoursListLoc.classList.remove("expand");
-    workingHoursListBtnLoc.classList.remove("rotate180")
-})
+// workingHoursLoc.addEventListener("mouseleave", () => {
+//     workingHoursListLoc.classList.remove("expand");
+//     workingHoursListBtnLoc.classList.remove("rotate180")
+// })
 
 languageLoc.addEventListener("mouseleave", () => {
     languageListLoc.classList.remove("expand");
@@ -165,33 +169,129 @@ recordsOnPageLoc.value = recordsOnPage;
 let citySelectedFilterArray = [];
 
 const actionAfterCityFilterChange = (e) => {
-    console.log(e.target.checked)
-    console.log(e.target.value)
+
     if (e.target.checked) {
         citySelectedFilterArray.push(e.target.value)
     } else {
         const indexDeletedItem = citySelectedFilterArray.indexOf(e.target.value);
         citySelectedFilterArray.splice(indexDeletedItem,1);
-       
     }
+
     if (citySelectedFilterArray.length !== 0) {
         cityListTitleLoc.classList.add("mini");
     } else {
         cityListTitleLoc.classList.remove("mini");
     }
-    console.log(citySelectedFilterArray)
+
     citySelectedOptionsLoc.innerText = citySelectedFilterArray.join(", ");
     
 }
 
-const addListenerToFilterListsElements = () => {
-    const cityFilterElements = document.querySelectorAll(".city ul input");
+let sectorSelectedFilterArray = [];
+
+const actionAfterSectorFilterChange = (e) => {
+
+    if (e.target.checked) {
+        sectorSelectedFilterArray.push(e.target.value)
+    } else {
+        const indexDeletedItem = sectorSelectedFilterArray.indexOf(e.target.value);
+        sectorSelectedFilterArray.splice(indexDeletedItem,1);
+    }
+
+    if (sectorSelectedFilterArray.length !== 0) {
+        sectorListTitleLoc.classList.add("mini");
+    } else {
+        sectorListTitleLoc.classList.remove("mini");
+    }
+
+    sectorSelectedOptionsLoc.innerText = sectorSelectedFilterArray.join(", ");
     
-    cityFilterElements.forEach((elem) => {
+}
+
+let employmentFormSelectedFilterArray = [];
+
+const actionAfterEmploymentFormFilterChange = (e) => {
+
+    if (e.target.checked) {
+        employmentFormSelectedFilterArray.push(e.target.value)
+    } else {
+        const indexDeletedItem = employmentFormSelectedFilterArray.indexOf(e.target.value);
+        employmentFormSelectedFilterArray.splice(indexDeletedItem,1);
+    }
+
+    if (employmentFormSelectedFilterArray.length !== 0) {
+        employmentFormListTitleLoc.classList.add("mini");
+    } else {
+        employmentFormListTitleLoc.classList.remove("mini");
+    }
+
+    employmentFormSelectedOptionsLoc.innerText = employmentFormSelectedFilterArray.join(", ");
+    
+}
+
+let workingHoursSelectedFilterArray = [];
+
+const actionAfterWorkingHoursFilterChange = (e) => {
+
+    if (e.target.checked) {
+        workingHoursSelectedFilterArray.push(e.target.value)
+    } else {
+        const indexDeletedItem = workingHoursSelectedFilterArray.indexOf(e.target.value);
+        workingHoursSelectedFilterArray.splice(indexDeletedItem,1);
+    }
+
+    if (workingHoursSelectedFilterArray.length !== 0) {
+        workingHoursListTitleLoc.classList.add("mini");
+    } else {
+        workingHoursListTitleLoc.classList.remove("mini");
+    }
+
+    workingHoursSelectedOptionsLoc.innerText = workingHoursSelectedFilterArray.join(", ");
+    
+}
+
+let languageSelectedFilterArray = [];
+
+const actionAfterLanguageFilterChange = (e) => {
+
+    if (e.target.checked) {
+        languageSelectedFilterArray.push(e.target.value)
+    } else {
+        const indexDeletedItem = languageSelectedFilterArray.indexOf(e.target.value);
+        languageSelectedFilterArray.splice(indexDeletedItem,1);
+    }
+
+    if (languageSelectedFilterArray.length !== 0) {
+        languageListTitleLoc.classList.add("mini");
+    } else {
+        languageListTitleLoc.classList.remove("mini");
+    }
+
+    languageSelectedOptionsLoc.innerText = languageSelectedFilterArray.join(", ");
+    
+}
+
+const addListenerToFilterListsElements = () => {
+    
+    document.querySelectorAll(".city ul input").forEach((elem) => {
         elem.addEventListener("change", actionAfterCityFilterChange)
     })
     
-    
+    document.querySelectorAll(".sector ul input").forEach((elem) => {
+        elem.addEventListener("change", actionAfterSectorFilterChange)
+    })
+
+    document.querySelectorAll(".employment-form ul input").forEach((elem) => {
+        elem.addEventListener("change", actionAfterEmploymentFormFilterChange)
+    })
+
+    document.querySelectorAll(".working-hours ul input").forEach((elem) => {
+        elem.addEventListener("change", actionAfterWorkingHoursFilterChange)
+    })
+
+    document.querySelectorAll(".language ul input").forEach((elem) => {
+        elem.addEventListener("change", actionAfterLanguageFilterChange)
+    })
 
 };
 
