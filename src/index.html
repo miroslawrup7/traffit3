@@ -17,11 +17,18 @@
         <h3>Znajdź ofertę pracy dopasowaną do Ciebie</h3>
         <div class="filters-container">
             <div class="wrapper one">
-                <div class="element job"><input type="text" placeholder="Stanowisko"></div>
+                <div class="element job">
+                    <label for="job">Stanowisko</label>
+                    <input type="text" id="job">
+
+                </div>
                 <div class="drop-down-container city">
                     <div class="element drop-down">
+                        <!-- <label class="title-label" for="city">Miasto</label>
+                        <input type="text" class="list-title" id="city"> -->
                         <div class="list-wrapper">
                             <div class="list-title">Miasto</div>
+                            <div class="selected-options"></div>
                             <div class="list">
                                 <ul></ul>
                             </div>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/main.min.css?cache_bust=1683791034626" />
+    <link rel="stylesheet" href="./css/main.min.css?cache_bust=1683874303394" />
     <link rel="shortcut icon" href="#" type="image/x-icon">
 
     <title>Grupa Progres</title>
@@ -17,11 +17,18 @@
         <h3>Znajdź ofertę pracy dopasowaną do Ciebie</h3>
         <div class="filters-container">
             <div class="wrapper one">
-                <div class="element job"><input type="text" placeholder="Stanowisko"></div>
+                <div class="element job">
+                    <label for="job">Stanowisko</label>
+                    <input type="text" id="job">
+
+                </div>
                 <div class="drop-down-container city">
                     <div class="element drop-down">
+                        <!-- <label class="title-label" for="city">Miasto</label>
+                        <input type="text" class="list-title" id="city"> -->
                         <div class="list-wrapper">
                             <div class="list-title">Miasto</div>
+                            <div class="selected-options"></div>
                             <div class="list">
                                 <ul></ul>
                             </div>
@@ -186,7 +193,7 @@
     </main>
 
 
-    <script src="./js/all.min.js?cache_bust=1683791034626"></script>
+    <script src="./js/all.min.js?cache_bust=1683874303394"></script>
 </body>
 
 </html>

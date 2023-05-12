@@ -1,20 +1,37 @@
+
+const jobLoc = document.querySelector(".job");
+const jobLabelLoc = document.querySelector(".job label");
+const jobInputLoc = document.querySelector(".job input");
+
 const cityLoc = document.querySelector(".city");
 const cityListBtnLoc = document.querySelector(".city .arrow-down");
+const cityListTitleLoc = document.querySelector(".city .list-title");
+const citySelectedOptionsLoc = document.querySelector(".city .selected-options");
 const cityListLoc = document.querySelector(".city .list");
+
 const distanceLoc = document.querySelector(".distance");
 const distanceListBtnLoc = document.querySelector(".distance .arrow-down");
+const distanceListTitleLoc = document.querySelector(".distance .list-title");
 const distanceListLoc = document.querySelector(".distance .list");
+
 const sectorLoc = document.querySelector(".sector");
 const sectorListBtnLoc = document.querySelector(".sector .arrow-down");
+const sectorListTitleLoc = document.querySelector(".sector .list-title");
 const sectorListLoc = document.querySelector(".sector .list");
+
 const employmentFormLoc = document.querySelector(".employment-form");
 const employmentFormListBtnLoc = document.querySelector(".employment-form .arrow-down");
+const employmentFormListTitleLoc = document.querySelector(".employment-form .list-title");
 const employmentFormListLoc = document.querySelector(".employment-form .list");
+
 const workingHoursLoc = document.querySelector(".working-hours");
 const workingHoursListBtnLoc = document.querySelector(".working-hours .arrow-down");
+const workingHoursListTitleLoc = document.querySelector(".working-hours .list-title");
 const workingHoursListLoc = document.querySelector(".working-hours .list");
+
 const languageLoc = document.querySelector(".language");
 const languageListBtnLoc = document.querySelector(".language .arrow-down");
+const languageListTitleLoc = document.querySelector(".language .list-title");
 const languageListLoc = document.querySelector(".language .list");
 
 const awardedResultsLoc = document.querySelector(".awarded");
@@ -42,37 +59,51 @@ const advancedSearchBar = document.querySelector(".wrapper.five");
 const advancedSearchBtn = document.querySelector(".advanced-search-btn .arrow-down");
 const advancedContainer = document.querySelector(".advanced-container");
 
+jobLoc.addEventListener("click", () => {
+    jobLabelLoc.classList.add("mini");
+    jobInputLoc.classList.add("active")
+})
+
+jobInputLoc.addEventListener("blur", (event) => {
+if (!event.target.value) {
+    jobLabelLoc.classList.remove("mini");
+    jobInputLoc.classList.remove("active")
+}
+})
 
 
-cityLoc.addEventListener("click", () => {
+
+cityListTitleLoc.addEventListener("click", () => {
     cityListLoc.classList.toggle("expand");
     cityListBtnLoc.classList.toggle("rotate180");
 })
 
-distanceLoc.addEventListener("click", () => {
+distanceListTitleLoc.addEventListener("click", () => {
     distanceListLoc.classList.toggle("expand");
     distanceListBtnLoc.classList.toggle("rotate180");
 })
 
-sectorLoc.addEventListener("click", () => {
+sectorListTitleLoc.addEventListener("click", () => {
     sectorListLoc.classList.toggle("expand");
     sectorListBtnLoc.classList.toggle("rotate180");
 })
 
-employmentFormLoc.addEventListener("click", () => {
+employmentFormListTitleLoc.addEventListener("click", () => {
     employmentFormListLoc.classList.toggle("expand");
     employmentFormListBtnLoc.classList.toggle("rotate180");
 })
 
-workingHoursLoc.addEventListener("click", () => {
+workingHoursListTitleLoc.addEventListener("click", () => {
     workingHoursListLoc.classList.toggle("expand");
     workingHoursListBtnLoc.classList.toggle("rotate180");
 })
 
-languageLoc.addEventListener("click", () => {
+languageListTitleLoc.addEventListener("click", () => {
     languageListLoc.classList.toggle("expand");
     languageListBtnLoc.classList.toggle("rotate180");
 })
+
+
 
 cityLoc.addEventListener("mouseleave", () => {
     cityListLoc.classList.remove("expand");
@@ -129,8 +160,40 @@ distanceInputsLoc.forEach((elem) => {
     })
 })
 
-
 recordsOnPageLoc.value = recordsOnPage;
+
+let citySelectedFilterArray = [];
+
+const actionAfterCityFilterChange = (e) => {
+    console.log(e.target.checked)
+    console.log(e.target.value)
+    if (e.target.checked) {
+        citySelectedFilterArray.push(e.target.value)
+    } else {
+        const indexDeletedItem = citySelectedFilterArray.indexOf(e.target.value);
+        citySelectedFilterArray.splice(indexDeletedItem,1);
+       
+    }
+    if (citySelectedFilterArray.length !== 0) {
+        cityListTitleLoc.classList.add("mini");
+    } else {
+        cityListTitleLoc.classList.remove("mini");
+    }
+    console.log(citySelectedFilterArray)
+    citySelectedOptionsLoc.innerText = citySelectedFilterArray.join(", ");
+    
+}
+
+const addListenerToFilterListsElements = () => {
+    const cityFilterElements = document.querySelectorAll(".city ul input");
+    
+    cityFilterElements.forEach((elem) => {
+        elem.addEventListener("change", actionAfterCityFilterChange)
+    })
+    
+    
+
+};
 
 // create RECORDS BOXES ///////////////////////////////////////////////
 const createRecordBoxes = (recordsArray, firstRecordNumber, recordsOnPage) => {
@@ -1574,6 +1637,7 @@ const loopOnAPI = (jsonData, filterConfigData) => {
         createAwardedRecordBoxes(allRecordsArray, filterConfigData);
         setPages(recordsNumber);
         createFilterLists(filterConfigData);
+        addListenerToFilterListsElements();
         // dropDownBtnStart();
         // pagesContainerStart();
         createFilteredRecordsArray();
