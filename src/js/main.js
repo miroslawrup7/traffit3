@@ -1763,4 +1763,5 @@ clearAllFiltersLoc.addEventListener("click", () => {
         elem.checked = false;
     })
     distanceListTitleLoc.innerText = "+0 km";
+    createFilteredRecordsArray();
 });
