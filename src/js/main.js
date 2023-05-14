@@ -54,8 +54,10 @@ const langLoc = document.querySelector(".language ul");
 const citiesLoc = document.querySelector(".city ul");
 const resultsLoc = document.querySelector(".results");
 
-const remoteLoc = document.querySelector("#remote");
-const relocationLoc = document.querySelector("#relocation");
+const remoteLoc = document.querySelector(".remote");
+const remoteInputLoc = document.querySelector("#remote");
+const relocationLoc = document.querySelector(".relocation");
+const relocationInputLoc = document.querySelector("#relocation");
 const searchInputLoc = document.querySelector(".job input");
 
 const distanceInputsLoc = document.querySelectorAll(".distance input");
@@ -693,7 +695,7 @@ const createFilteredRecordsArray = () => {
     // selectedRemote ////////////////
     let filteredRecordsArray_8 = [];
 
-    if (remoteLoc.checked || (filterConfigData.remote_filter)) {
+    if (remoteInputLoc.checked || (filterConfigData.remote_filter)) {
         filteredRecordsArray_7.forEach((el, index) => {
             let addFlag = false;
 
@@ -712,7 +714,7 @@ const createFilteredRecordsArray = () => {
     // selectedRelocation ////////////////
     let filteredRecordsArray_9 = [];
 
-    if (relocationLoc.checked) {
+    if (relocationInputLoc.checked) {
         filteredRecordsArray_8.forEach((el, index) => {
             let addFlag = false;
 
@@ -792,14 +794,12 @@ const createFilteredRecordsArray = () => {
 
     recordsNumber = filteredRecordsArray_11.length;
 
-    // summariseDownload(recordsNumber);
     createRecordBoxes(filteredRecordsArray_11, 0, recordsOnPage);
   
     setPages(recordsNumber);
     filtersON = true;
     // hideFilter();
     
-    // setTimeout(setParentIframeHeight, 1000);
     
 };
 
@@ -816,46 +816,31 @@ const dropDownBtnStart = () => {
 // create HTML FILTERS LISTS //////////////////////////////////////////////////////
 const createFilterLists = (filterConfigData) => {
 
-    // if (!filterConfigData.salary_visible) {
-    //     salaryLoc.classList.add("unactive");
-    // }
-
-    // if (!filterConfigData.relocation_visible) {
-    //     relocationWrapperLoc.classList.add("unactive");
-    // }
-
-    // if (!filterConfigData.language_visible) {
-    //     langWrapperLoc.classList.add("unactive");
-    // }
-
-    // if (!filterConfigData.remote_visible) {
-    //     remoteWrapperLoc.classList.add("unactive");
-    // }
-
-    // if (!filterConfigData.location_visible) {
-    //     locWrapperLoc.classList.add("unactive");
-    // }
-
-    if (!filterConfigData.branche_visible) {
-        brancheWrapperLoc.classList.add("unactive");
+    if (!filterConfigData.relocation_visible) {
+        relocationLoc.classList.add("unactive");
     }
 
-    // let isSamsungBrowser = navigator.userAgent.match(/SamsungBrowser/i);
-    // let isChromeBrowser = navigator.userAgent.match(/Chrome/i);
+    if (!filterConfigData.language_visible) {
+        languageLoc.classList.add("unactive");
+    }
+
+    if (!filterConfigData.remote_visible) {
+        remoteLoc.classList.add("unactive");
+    }
+
+    if (!filterConfigData.location_visible) {
+        cityLoc.classList.add("unactive");
+        distanceLoc.classList.add("unactive");
+    }
+
+    if (!filterConfigData.branche_visible) {
+        sectorLoc.classList.add("unactive");
+    }
 
     if (filterBranchesList.length > 0) {
         filterBranchesList.sort(function (a, b) {
             return a.localeCompare(b);
         });
-        
-        // filterListMaxHeight = filterBranchesList.length * 21 + 3;
-        // if (getMobileOperatingSystem() === "unknown") {
-            // brancheListLoc.style.height = String(rowHeight) + "px";
-        // } else if (isSamsungBrowser || isChromeBrowser) {
-        //     branchesLoc.style.height = "50px";
-        // } else {
-        //     branchesLoc.style.height = String(rowHeight) + "px";
-        // }
         
         filterBranchesList.forEach(function (el) {
             branchesLoc.insertAdjacentHTML(
@@ -878,14 +863,7 @@ const createFilterLists = (filterConfigData) => {
         filterJobFormList.sort(function (a, b) {
             return a.localeCompare(b);
         });
-        // rowHeight = filterJobFormList.length * 21 + 3;
-        // if (getMobileOperatingSystem() === "unknown") {
-            // jobFormLoc.style.height = String(rowHeight) + "px";
-        // } else if (isSamsungBrowser || isChromeBrowser) {
-        //     jobFormLoc.style.height = "50px";
-        // } else {
-        //     jobFormLoc.style.height = String(rowHeight) + "px";
-        // }
+
         filterJobFormList.forEach(function (el) {
             jobFormLoc.insertAdjacentHTML(
                 "beforeend",
@@ -906,14 +884,7 @@ const createFilterLists = (filterConfigData) => {
         filterJobTypeList.sort(function (a, b) {
             return a.localeCompare(b);
         });
-        // rowHeight = filterJobTypeList.length * 21 + 3;
-        // if (getMobileOperatingSystem() === "unknown") {
-            // jobTypeLoc.style.height = String(rowHeight) + "px";
-        // } else if (isSamsungBrowser || isChromeBrowser) {
-        //     jobTypeLoc.style.height = "50px";
-        // } else {
-        //     jobTypeLoc.style.height = String(rowHeight) + "px";
-        // }
+
         filterJobTypeList.forEach(function (el) {
             jobTypeLoc.insertAdjacentHTML(
                 "beforeend",
@@ -934,14 +905,7 @@ const createFilterLists = (filterConfigData) => {
         filterLangList.sort(function (a, b) {
             return a.localeCompare(b);
         });
-        // rowHeight = filterLangList.length * 21 + 3;
-        // if (getMobileOperatingSystem() === "unknown") {
-            // langLoc.style.height = String(rowHeight) + "px";
-        // } else if (isSamsungBrowser || isChromeBrowser) {
-        //     langLoc.style.height = "50px";
-        // } else {
-        //     langLoc.style.height = String(rowHeight) + "px";
-        // }
+
         filterLangList.forEach(function (el) {
             langLoc.insertAdjacentHTML(
                 "beforeend",
@@ -960,15 +924,6 @@ const createFilterLists = (filterConfigData) => {
 
 
     if (Object.keys(filterCountriesList).length > 0) {
-        // countriesLoc.insertAdjacentHTML(
-        //     "beforeend",
-        //     `<option value="" class="placeholder">Państwo</option>`
-        // );
-
-        // citiesLoc.insertAdjacentHTML(
-        //     "beforeend",
-        //     `<option value="" class="placeholder">Miasto</option>`
-        // );
 
         function compare(a, b) {
             return a.city.localeCompare(b.city);
@@ -987,10 +942,6 @@ const createFilterLists = (filterConfigData) => {
 
         let allCitiesObj = [];
         for (let key in filterCountriesList) {
-            // countriesLoc.insertAdjacentHTML(
-            //     "beforeend",
-            //     `<option value="${key}">${key}</option>`
-            // );
             allCitiesObj = allCitiesObj.concat(filterCountriesList[key]);
         }
 
@@ -1019,14 +970,6 @@ const createFilterLists = (filterConfigData) => {
         });
     }
 
-    // sliderOne.min = filterMinSalary.toString();
-    // sliderTwo.min = filterMinSalary.toString();
-    // sliderOne.max = filterMaxSalary.toString();
-    // sliderTwo.max = filterMaxSalary.toString();
-    // sliderOne.value = filterMinSalary.toString();
-    // sliderTwo.value = filterMaxSalary.toString();
-    // slideOne();
-    // slideTwo();
 };
 
 // PAGES /////////////////////////////////////////////////////////////
@@ -1043,7 +986,7 @@ const changePage = (pageBtn) => {
         ? createRecordBoxes(filteredRecordsArray_11, firstRecord, lastRecord)
         : createRecordBoxes(allRecordsArray, firstRecord, lastRecord);
     globActivePageNo = parseInt(pageBtn.innerText);
-    // setTimeout(setParentIframeHeight(), 500);
+
 };
 
 let globActivePageNo;
@@ -1522,15 +1465,6 @@ const createDataForFilters = (
         }
     }
 
-    // if (visibleRate) {
-    //     if (salaryFrom < filterMinSalary) {
-    //         filterMinSalary = salaryFrom;
-    //     }
-    //     if (salaryTo > filterMaxSalary) {
-    //         filterMaxSalary = salaryTo;
-    //     }
-    // }
-
     if (filterConfigData.location_country_filter.length) {
         
         if (filterConfigData.location_country_filter.indexOf(country) !== -1) {
@@ -1732,9 +1666,6 @@ advancedSearchBar.addEventListener("click", () => {
 const clearAllFiltersLoc = document.querySelector(".clear-all-filters")
 
 clearAllFiltersLoc.addEventListener("click", () => {
-    // selectedOptionsInFilterArray = [[],[],[],[],[],[]];
-    // setClearBtn()
-
 
     filterListLocArray.forEach((elem, index) => {
 

@@ -1,10 +1,9 @@
 {
-    "remote_visible": true,
-    "language_visible": true,
-    "branche_visible": true,
     "location_visible": true,
-    "salary_visible": true,
+    "remote_visible": true,
     "relocation_visible": true,
+    "branche_visible": true,
+    "language_visible": true,
     "remote_filter": false,
     "language_filter": [],
     "branche_filter": [],
