@@ -126,6 +126,22 @@ main {
             &.two {
                 width: 21%;
                 order: 2;
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+                position: relative;
+
+                .clear-all-filters {
+                    font-size: 12px;
+                    cursor: pointer;
+                    position: absolute;
+                    bottom: -24px;
+                    margin-left: 12px;
+
+                    &:hover {
+                        color: $main-color;
+                    }
+                }
             }
 
             &.five {
@@ -140,49 +156,13 @@ main {
             .drop-down-container {
                 position: relative;
                 height: 50px;
-                // border: red 1px solid;
 
                 &.city {
                     width: 27%;
                     z-index: 10;
-                    // position: relative;
-                    // background-color: #fff;
-                    // border-radius: 15px;
-                    // cursor: pointer;
-
-                    // input {
-                    //     background-color: transparent;
-                    //     border-radius: unset;
-                    //     padding-top: 8px;
-                    //     // height: 100px;
-                    //     // display: flex;
-                    //     // align-items: end;
-                    //     z-index: -1;
-
-                    //     &.active {
-                    //         z-index: 1;
-                    //     }
-                    // }
 
                     label.title-label {
                         position: absolute;
-                        //     padding: 0 20px;
-                        //     height: 100%;
-                        //     width: 100%;
-                        //     display: flex;
-                        //     align-items: center;
-                        //     cursor: pointer;
-                        //     transition: font-size 0.1s;
-                        //     font-size: 16px;
-
-                        //     &.mini {
-                        //         top: 5px;
-                        //         font-size: 10px;
-                        //         opacity: 0.8;
-                        //         align-items: flex-start;
-                        //         z-index: 0;
-                        //         cursor: default;
-                        //     }
                     }
                 }
 
@@ -360,18 +340,13 @@ main {
                                 font-size: 10px;
                                 opacity: 0.8;
                                 align-items: flex-start;
-                                // z-index: 0;
-                                // cursor: default;
                                 position: relative;
-
                             }
                         }
 
                         .selected-options {
                             position: absolute;
                             display: flex;
-                            // align-items: center;
-                            // height: 100%;
                             padding-top: 18px;
                             overflow: hidden;
                             padding-right: 12px;
@@ -384,6 +359,7 @@ main {
                             min-height: fit-content;
                             max-height: 0;
                             display: flex;
+                            overflow-x: hidden;
 
                             &.expand {
                                 max-height: 400px;
@@ -500,7 +476,7 @@ main {
                                     display: inline-block;
                                     font-size: 16px;
                                     cursor: pointer;
-                                    margin: 0 8px;
+                                    padding: 0 8px;
                                     width: 100%;
                                 }
                             }
@@ -515,13 +491,11 @@ main {
                     border-radius: 15px;
                     cursor: pointer;
 
+
                     input {
                         background-color: transparent;
                         border-radius: unset;
                         padding-top: 8px;
-                        // height: 100px;
-                        // display: flex;
-                        // align-items: end;
                         z-index: -1;
 
                         &.active {
@@ -549,6 +523,16 @@ main {
                             cursor: default;
                         }
                     }
+
+                    .clear-btn {
+                        display: none;
+
+                        &:hover {
+                            opacity: 1 !important;
+                        }
+                    }
+
+
                 }
 
                 &.search-btn {
@@ -596,6 +580,47 @@ main {
                         opacity: 1;
                     }
                 }
+            }
+
+            .filters-quantity {
+                position: absolute;
+                height: 20px;
+                width: 20px;
+                top: 5%;
+                transform: translateY(-50%);
+                right: -5px;
+                font-size: 13px;
+                font-weight: 500;
+                background-color: $main-color;
+                color: #fff;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                z-index: 20;
+                transition: opacity 0.1s ease-out;
+
+            }
+
+            .clear-btn {
+                position: absolute;
+                height: 20px;
+                width: 20px;
+                top: 5%;
+                transform: translateY(-50%);
+                right: -5px;
+                font-size: 12px;
+                font-weight: 500;
+                background-color: #fff;
+                color: #f00;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                z-index: 20;
+                cursor: pointer;
             }
         }
     }
@@ -965,6 +990,16 @@ main {
                     order: 4;
                     display: flex;
                     justify-content: center;
+
+                    .search-btn {
+                        max-width: 30%;
+                        min-width: 220px;
+                        margin-left: 0;
+                    }
+
+                    .clear-all-filters {
+                        margin-left: 0;
+                    }
                 }
 
                 &.three {
@@ -998,11 +1033,7 @@ main {
                         flex-grow: 1;
                     }
 
-                    &.search-btn {
-                        max-width: 30%;
-                        min-width: 220px;
-                        margin-left: 0;
-                    }
+
 
                     &.sector {
                         width: 45%;
@@ -1140,6 +1171,10 @@ main {
                 }
             }
         }
+
+        .pages-container {
+            justify-content: flex-start;
+        }
     }
 }
 
@@ -1177,6 +1212,10 @@ main {
                     }
                 }
             }
+        }
+
+        .pages-container {
+            justify-content: flex-start;
         }
     }
 }

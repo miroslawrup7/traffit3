@@ -1,7 +1,9 @@
+"use strict"
 
 const jobLoc = document.querySelector(".job");
 const jobLabelLoc = document.querySelector(".job label");
 const jobInputLoc = document.querySelector(".job input");
+const jobClearBtnLoc = jobLoc.querySelector(".clear-btn")
 
 const cityLoc = document.querySelector(".city");
 const cityListBtnLoc = document.querySelector(".city .arrow-down");
@@ -41,6 +43,8 @@ const languageListLoc = document.querySelector(".language .list");
 const awardedResultsLoc = document.querySelector(".awarded");
 const recordsOnPageLoc = document.querySelector(".records-on-page");
 const pagesSwitchLoc = document.querySelector(".pages");
+const pagesContainer = document.querySelector(".pages-container");
+let pageButtonsLoc = document.querySelectorAll(".page");
 
 const brancheWrapperLoc = document.querySelector(".sector");
 const branchesLoc = document.querySelector(".sector ul");
@@ -63,113 +67,69 @@ const advancedSearchBar = document.querySelector(".wrapper.five");
 const advancedSearchBtn = document.querySelector(".advanced-search-btn .arrow-down");
 const advancedContainer = document.querySelector(".advanced-container");
 
-jobLoc.addEventListener("click", () => {
+jobLoc.addEventListener("click", (e) => {
     jobLabelLoc.classList.add("mini");
-    jobInputLoc.classList.add("active")
+    jobInputLoc.classList.add("active");
+    jobClearBtnLoc.style.opacity = "0.5";
+    jobClearBtnLoc.style.display = "flex";
 })
 
 jobInputLoc.addEventListener("blur", (event) => {
-if (!event.target.value) {
+    if (!event.target.value) {
+        jobLabelLoc.classList.remove("mini");
+        jobInputLoc.classList.remove("active");
+        jobClearBtnLoc.style.opacity = "0";
+        jobClearBtnLoc.style.display = "none";
+    }
+})
+
+jobClearBtnLoc.addEventListener("click", (e) => {
+    e.stopPropagation()
+    jobInputLoc.value = "";
     jobLabelLoc.classList.remove("mini");
-    jobInputLoc.classList.remove("active")
-}
+    jobInputLoc.classList.remove("active");
+    jobClearBtnLoc.style.opacity = "0";
+    jobClearBtnLoc.style.display = "none";
 })
 
 const removePaddingBottomToFilterList = (filterList) => {
-    filterList.closest(".element").style.paddingBottom = ""
+    filterList.closest(".element").style.paddingBottom = "";
     filterList.closest(".element").style.boxShadow = "";
 }
 
 const addPaddingBottomToFilterList = (filterList) => {
     if (filterList.closest(".element").style.paddingBottom === "" ) {
-        filterList.closest(".element").style.paddingBottom = "15px"
+        filterList.closest(".element").style.paddingBottom = "15px";
         filterList.closest(".element").style.boxShadow = "0px 0px 3px rgba(0,0,0,0.1)";
     } else {
-        removePaddingBottomToFilterList(filterList)
+        removePaddingBottomToFilterList(filterList);
     }
 }
 
-cityListTitleLoc.addEventListener("click", () => {
-    cityListLoc.classList.toggle("expand");
-    cityListBtnLoc.classList.toggle("rotate180");
-    addPaddingBottomToFilterList(cityListTitleLoc)
+const dropDownListArray = [cityLoc, distanceLoc, sectorLoc, employmentFormLoc, workingHoursLoc, languageLoc]
+
+dropDownListArray.forEach((elem) => {
+    elem.querySelector(".list-title").addEventListener("click", () => {
+        elem.querySelector(".list").classList.toggle("expand");
+        elem.querySelector(".arrow-down").classList.toggle("rotate180");
+        addPaddingBottomToFilterList(elem.querySelector(".list-title"));
+    })
 })
 
-distanceListTitleLoc.addEventListener("click", () => {
-    distanceListLoc.classList.toggle("expand");
-    distanceListBtnLoc.classList.toggle("rotate180");
-    addPaddingBottomToFilterList(distanceListTitleLoc)
+dropDownListArray.forEach((elem) => {
+    elem.addEventListener("mouseleave", () => {
+        elem.querySelector(".list").classList.remove("expand");
+        elem.querySelector(".arrow-down").classList.remove("rotate180");
+        removePaddingBottomToFilterList(elem.querySelector(".list-title"));
+    })
 })
-
-sectorListTitleLoc.addEventListener("click", () => {
-    sectorListLoc.classList.toggle("expand");
-    sectorListBtnLoc.classList.toggle("rotate180");
-    addPaddingBottomToFilterList(sectorListTitleLoc)
-})
-
-employmentFormListTitleLoc.addEventListener("click", () => {
-    employmentFormListLoc.classList.toggle("expand");
-    employmentFormListBtnLoc.classList.toggle("rotate180");
-    addPaddingBottomToFilterList(employmentFormListTitleLoc)
-    
-})
-
-workingHoursListTitleLoc.addEventListener("click", () => {
-    workingHoursListLoc.classList.toggle("expand");
-    workingHoursListBtnLoc.classList.toggle("rotate180");
-    addPaddingBottomToFilterList(workingHoursListTitleLoc)
-})
-
-languageListTitleLoc.addEventListener("click", () => {
-    languageListLoc.classList.toggle("expand");
-    languageListBtnLoc.classList.toggle("rotate180");
-    addPaddingBottomToFilterList(languageListTitleLoc)
-})
-
-
-
-cityLoc.addEventListener("mouseleave", () => {
-    cityListLoc.classList.remove("expand");
-    cityListBtnLoc.classList.remove("rotate180")
-    removePaddingBottomToFilterList(cityListTitleLoc)
-})
-
-distanceLoc.addEventListener("mouseleave", () => {
-    distanceListLoc.classList.remove("expand");
-    distanceListBtnLoc.classList.remove("rotate180")
-    removePaddingBottomToFilterList(distanceListTitleLoc)
-})
-
-sectorLoc.addEventListener("mouseleave", () => {
-    sectorListLoc.classList.remove("expand");
-    sectorListBtnLoc.classList.remove("rotate180")
-    removePaddingBottomToFilterList(sectorListTitleLoc)
-})  
-
-employmentFormLoc.addEventListener("mouseleave", () => {
-    employmentFormListLoc.classList.remove("expand");
-    employmentFormListBtnLoc.classList.remove("rotate180")
-    removePaddingBottomToFilterList(employmentFormListTitleLoc)
-})
-
-workingHoursLoc.addEventListener("mouseleave", () => {
-    workingHoursListLoc.classList.remove("expand");
-    workingHoursListBtnLoc.classList.remove("rotate180")
-    removePaddingBottomToFilterList(workingHoursListTitleLoc)
-})
-
-languageLoc.addEventListener("mouseleave", () => {
-    languageListLoc.classList.remove("expand");
-    languageListBtnLoc.classList.remove("rotate180")
-    removePaddingBottomToFilterList(languageListTitleLoc)
-})
-
 
 let filterConfigData = {};
 let apiPage = 1;
 let rawAPIArray = [];
 let allRecordsArray = [];
 let recordsNumber = 0;
+let firstRecordNumber = 0;
 let recordsOnPage = 20;
 let filtersON = false;
 let filterBranchesList = [];
@@ -177,9 +137,7 @@ let filterJobFormList = [];
 let filterJobTypeList = [];
 let filterLangList = [];
 let filterCountriesList = {};
-let filterListMaxHeight = 0;
 let filteredRecordsArray_11;
-
 
 // change distance label after choose
 distanceInputsLoc.forEach((elem) => {
@@ -191,131 +149,99 @@ distanceInputsLoc.forEach((elem) => {
 
 recordsOnPageLoc.value = recordsOnPage;
 
-let citySelectedFilterArray = [];
+const filterListLocArray = [cityLoc, sectorLoc, employmentFormLoc, workingHoursLoc, languageLoc];
+let selectedOptionsInFilterArray = [[],[],[],[],[],[]];
 
-const actionAfterCityFilterChange = (e) => {
+const setClearBtn = () => {
+    filterListLocArray.forEach((elem, index) => {
 
-    if (e.target.checked) {
-        citySelectedFilterArray.push(e.target.value)
-    } else {
-        const indexDeletedItem = citySelectedFilterArray.indexOf(e.target.value);
-        citySelectedFilterArray.splice(indexDeletedItem,1);
-    }
-
-    if (citySelectedFilterArray.length !== 0) {
-        cityListTitleLoc.classList.add("mini");
-    } else {
-        cityListTitleLoc.classList.remove("mini");
-    }
-
-    citySelectedOptionsLoc.innerText = citySelectedFilterArray.join(", ");
+        // selectedOptionsInFilterArray.push([]);
     
+        const clearBtn = elem.querySelector(".clear-btn");
+        const filtersQuantityBtn = elem.querySelector(".filters-quantity");
+        const filtersSelectedOptions = elem.querySelector(".selected-options");
+        const filtersListTitle = elem.querySelector(".list-title");
+    
+        clearBtn.addEventListener("mouseenter", () => {
+            if (selectedOptionsInFilterArray[index].length !== 0) {
+                filtersQuantityBtn.style.opacity = "0";
+                clearBtn.style.opacity = "1";
+            }
+        });
+        
+        clearBtn.addEventListener("mouseleave", () => {
+            if (selectedOptionsInFilterArray[index].length !== 0) {
+                filtersQuantityBtn.style.opacity = "1";
+                clearBtn.style.opacity = "0";
+            }
+        });
+    
+        clearBtn.addEventListener("click", () => {
+            if (selectedOptionsInFilterArray[index].length !== 0) {
+                selectedOptionsInFilterArray[index] = [];
+                clearBtn.style.opacity = "0";
+                elem.querySelectorAll("input").forEach((el) => {
+                    el.checked = false;
+                })
+                filtersSelectedOptions.innerText = "";
+                filtersListTitle.classList.remove("mini");
+                filtersQuantityBtn.style.opacity = "0";
+            }
+        });
+    })
 }
 
-let sectorSelectedFilterArray = [];
+setClearBtn()
 
-const actionAfterSectorFilterChange = (e) => {
-
-    if (e.target.checked) {
-        sectorSelectedFilterArray.push(e.target.value)
-    } else {
-        const indexDeletedItem = sectorSelectedFilterArray.indexOf(e.target.value);
-        sectorSelectedFilterArray.splice(indexDeletedItem,1);
-    }
-
-    if (sectorSelectedFilterArray.length !== 0) {
-        sectorListTitleLoc.classList.add("mini");
-    } else {
-        sectorListTitleLoc.classList.remove("mini");
-    }
-
-    sectorSelectedOptionsLoc.innerText = sectorSelectedFilterArray.join(", ");
-    
-}
-
-let employmentFormSelectedFilterArray = [];
-
-const actionAfterEmploymentFormFilterChange = (e) => {
+const actionAfterFilterInputChange = (e) => {
+    const filterParentLoc = e.target.closest(".drop-down-container");
+    const filtersQuantityBtn = filterParentLoc.querySelector(".filters-quantity");
+    const filtersListTitleLoc = filterParentLoc.querySelector(".list-title");
+    const filtersSelectedOptionsLoc = filterParentLoc.querySelector(".selected-options");
+   
+    const indexFilter = filterListLocArray.indexOf(filterParentLoc);
 
     if (e.target.checked) {
-        employmentFormSelectedFilterArray.push(e.target.value)
+        selectedOptionsInFilterArray[indexFilter].push(e.target.value);
     } else {
-        const indexDeletedItem = employmentFormSelectedFilterArray.indexOf(e.target.value);
-        employmentFormSelectedFilterArray.splice(indexDeletedItem,1);
+        const indexDeletedItem = selectedOptionsInFilterArray[indexFilter].indexOf(e.target.value);
+        selectedOptionsInFilterArray[indexFilter].splice(indexDeletedItem,1);
     }
 
-    if (employmentFormSelectedFilterArray.length !== 0) {
-        employmentFormListTitleLoc.classList.add("mini");
+    selectedOptionsInFilterArray[indexFilter]
+
+    if (selectedOptionsInFilterArray[indexFilter].length !== 0) {
+        filtersListTitleLoc.classList.add("mini");
+        filtersQuantityBtn.style.opacity = "1";
+        filtersQuantityBtn.innerText = selectedOptionsInFilterArray[indexFilter].length;
     } else {
-        employmentFormListTitleLoc.classList.remove("mini");
+        filtersListTitleLoc.classList.remove("mini");
+        filtersQuantityBtn.style.opacity = "0";
     }
 
-    employmentFormSelectedOptionsLoc.innerText = employmentFormSelectedFilterArray.join(", ");
-    
-}
-
-let workingHoursSelectedFilterArray = [];
-
-const actionAfterWorkingHoursFilterChange = (e) => {
-
-    if (e.target.checked) {
-        workingHoursSelectedFilterArray.push(e.target.value)
-    } else {
-        const indexDeletedItem = workingHoursSelectedFilterArray.indexOf(e.target.value);
-        workingHoursSelectedFilterArray.splice(indexDeletedItem,1);
-    }
-
-    if (workingHoursSelectedFilterArray.length !== 0) {
-        workingHoursListTitleLoc.classList.add("mini");
-    } else {
-        workingHoursListTitleLoc.classList.remove("mini");
-    }
-
-    workingHoursSelectedOptionsLoc.innerText = workingHoursSelectedFilterArray.join(", ");
-    
-}
-
-let languageSelectedFilterArray = [];
-
-const actionAfterLanguageFilterChange = (e) => {
-
-    if (e.target.checked) {
-        languageSelectedFilterArray.push(e.target.value)
-    } else {
-        const indexDeletedItem = languageSelectedFilterArray.indexOf(e.target.value);
-        languageSelectedFilterArray.splice(indexDeletedItem,1);
-    }
-
-    if (languageSelectedFilterArray.length !== 0) {
-        languageListTitleLoc.classList.add("mini");
-    } else {
-        languageListTitleLoc.classList.remove("mini");
-    }
-
-    languageSelectedOptionsLoc.innerText = languageSelectedFilterArray.join(", ");
-    
+    filtersSelectedOptionsLoc.innerText = selectedOptionsInFilterArray[indexFilter].join(", ");
 }
 
 const addListenerToFilterListsElements = () => {
     
     document.querySelectorAll(".city ul input").forEach((elem) => {
-        elem.addEventListener("change", actionAfterCityFilterChange)
+        elem.addEventListener("change", actionAfterFilterInputChange);
     })
     
     document.querySelectorAll(".sector ul input").forEach((elem) => {
-        elem.addEventListener("change", actionAfterSectorFilterChange)
+        elem.addEventListener("change", actionAfterFilterInputChange);
     })
 
     document.querySelectorAll(".employment-form ul input").forEach((elem) => {
-        elem.addEventListener("change", actionAfterEmploymentFormFilterChange)
+        elem.addEventListener("change", actionAfterFilterInputChange);
     })
 
     document.querySelectorAll(".working-hours ul input").forEach((elem) => {
-        elem.addEventListener("change", actionAfterWorkingHoursFilterChange)
+        elem.addEventListener("change", actionAfterFilterInputChange);
     })
 
     document.querySelectorAll(".language ul input").forEach((elem) => {
-        elem.addEventListener("change", actionAfterLanguageFilterChange)
+        elem.addEventListener("change", actionAfterFilterInputChange);
     })
 
 };
@@ -324,7 +250,7 @@ const addListenerToFilterListsElements = () => {
 const createRecordBoxes = (recordsArray, firstRecordNumber, recordsOnPage) => {
     resultsLoc.replaceChildren();
 
-    for (i = firstRecordNumber; i < recordsOnPage; i++) {
+    for (let i = firstRecordNumber; i < recordsOnPage; i++) {
         // colouring of records by type of recruitment
 
         if (recordsArray[i]) {
@@ -463,13 +389,11 @@ const createFilteredRecordsArray = () => {
     const jobFormChildrenLoc = jobFormLoc.querySelectorAll("li input");
     const jobTypeChildrenLoc = jobTypeLoc.querySelectorAll("li input");
     const langChildrenLoc = langLoc.querySelectorAll("li input");
-    // const countriesChildrenLoc = document.querySelectorAll(".countries option");
     const citiesChildrenLoc = citiesLoc.querySelectorAll("li input");
 
     let filteredRecordsArray = allRecordsArray;
 
     // selectedBranches ////////////////
-
     let selectedBranches = [];
 
     if (filterConfigData.branche_filter.length) {
@@ -505,7 +429,6 @@ const createFilteredRecordsArray = () => {
     }
 
     // selectedJobForms ////////////////
-
     let selectedJobForms = [];
 
     selectedJobForms = Array.from(jobFormChildrenLoc)
@@ -539,7 +462,6 @@ const createFilteredRecordsArray = () => {
     }
 
     // selectedJobTypes ////////////////
-
     let selectedjobTypes = Array.from(jobTypeChildrenLoc)
         .filter(function (elem) {
             return elem.checked;
@@ -723,7 +645,6 @@ const createFilteredRecordsArray = () => {
                     return elem.value;
                 }
             });
-
     }
 
     let filteredRecordsArray_7 = [];
@@ -770,7 +691,6 @@ const createFilteredRecordsArray = () => {
     }
    
     // selectedRemote ////////////////
-
     let filteredRecordsArray_8 = [];
 
     if (remoteLoc.checked || (filterConfigData.remote_filter)) {
@@ -790,7 +710,6 @@ const createFilteredRecordsArray = () => {
     }
 
     // selectedRelocation ////////////////
-
     let filteredRecordsArray_9 = [];
 
     if (relocationLoc.checked) {
@@ -810,7 +729,6 @@ const createFilteredRecordsArray = () => {
     }
 
     // searchText ////////////////
-
     let filteredRecordsArray_10 = [];
 
     let searchText = searchInputLoc.value;
@@ -929,8 +847,8 @@ const createFilterLists = (filterConfigData) => {
         filterBranchesList.sort(function (a, b) {
             return a.localeCompare(b);
         });
-        rowHeight = filterBranchesList.length * 21 + 3;
-        filterListMaxHeight = rowHeight;
+        
+        // filterListMaxHeight = filterBranchesList.length * 21 + 3;
         // if (getMobileOperatingSystem() === "unknown") {
             // brancheListLoc.style.height = String(rowHeight) + "px";
         // } else if (isSamsungBrowser || isChromeBrowser) {
@@ -960,7 +878,7 @@ const createFilterLists = (filterConfigData) => {
         filterJobFormList.sort(function (a, b) {
             return a.localeCompare(b);
         });
-        rowHeight = filterJobFormList.length * 21 + 3;
+        // rowHeight = filterJobFormList.length * 21 + 3;
         // if (getMobileOperatingSystem() === "unknown") {
             // jobFormLoc.style.height = String(rowHeight) + "px";
         // } else if (isSamsungBrowser || isChromeBrowser) {
@@ -988,7 +906,7 @@ const createFilterLists = (filterConfigData) => {
         filterJobTypeList.sort(function (a, b) {
             return a.localeCompare(b);
         });
-        rowHeight = filterJobTypeList.length * 21 + 3;
+        // rowHeight = filterJobTypeList.length * 21 + 3;
         // if (getMobileOperatingSystem() === "unknown") {
             // jobTypeLoc.style.height = String(rowHeight) + "px";
         // } else if (isSamsungBrowser || isChromeBrowser) {
@@ -1016,7 +934,7 @@ const createFilterLists = (filterConfigData) => {
         filterLangList.sort(function (a, b) {
             return a.localeCompare(b);
         });
-        rowHeight = filterLangList.length * 21 + 3;
+        // rowHeight = filterLangList.length * 21 + 3;
         // if (getMobileOperatingSystem() === "unknown") {
             // langLoc.style.height = String(rowHeight) + "px";
         // } else if (isSamsungBrowser || isChromeBrowser) {
@@ -1148,7 +1066,7 @@ const movePrevPagesBtns = () => {
     if (firstDispalyedPageNo > 1) {
         pagesSwitchLoc.replaceChildren();
 
-        for (n = firstDispalyedPageNo - 1; n <= lastDispalyedPageNo - 1; n++) {
+        for (let n = firstDispalyedPageNo - 1; n <= lastDispalyedPageNo - 1; n++) {
             if (!activePageNo) {
                 activePageNo = globActivePageNo;
             }
@@ -1224,7 +1142,7 @@ const moveNextPagesBtns = () => {
     if (lastDispalyedPageNo < pagesQuantityCalc) {
         pagesSwitchLoc.replaceChildren();
 
-        for (n = firstDispalyedPageNo + 1; n <= lastDispalyedPageNo + 1; n++) {
+        for (let n = firstDispalyedPageNo + 1; n <= lastDispalyedPageNo + 1; n++) {
             if (!activePageNo) {
                 activePageNo = globActivePageNo;
             }
@@ -1311,7 +1229,7 @@ const setPages = (recordsNumber) => {
     if (pagesQuantityCalc > maxPageBtns) {
         pagesSwitchLoc.replaceChildren();
 
-        for (n = 1; n <= maxPageBtns; n++) {
+        for (let n = 1; n <= maxPageBtns; n++) {
             if (n === 1) {
                 pagesSwitchLoc.insertAdjacentHTML(
                     "beforeend",
@@ -1335,7 +1253,7 @@ const setPages = (recordsNumber) => {
     } else {
         pagesSwitchLoc.replaceChildren();
 
-        for (n = 1; n <= pagesQuantityCalc; n++) {
+        for (let n = 1; n <= pagesQuantityCalc; n++) {
             if (n === 1) {
                 pagesSwitchLoc.insertAdjacentHTML(
                     "beforeend",
@@ -1401,8 +1319,6 @@ window.addEventListener("resize", () => {
 
 setPagesBtnQuantity();
 
-
-
 // create AWARDED RECORDS BOXES ///////////////////////////////////////////////
 const createAwardedRecordBoxes = (recordsArray, filterConfigData) => {
 
@@ -1440,7 +1356,7 @@ const createAwardedRecordBoxes = (recordsArray, filterConfigData) => {
             filterAwarded(filterConfigData.recruitmentType_filter, awardedRecordsArray, "recruitmentType");
         }
 
-        for (i = firstRecordNumber; i < 10; i++) {
+        for (let i = firstRecordNumber; i < 10; i++) {
             if (awardedRecordsArray[i]) {
                 let borderColorClass = "";
                 let textColorClass = "";
@@ -1539,8 +1455,6 @@ const createAwardedRecordBoxes = (recordsArray, filterConfigData) => {
                         </div>
                 </div>
 
-                
-
             </div></a>`
                 );
             }
@@ -1583,7 +1497,6 @@ const createDataForFilters = (
         } else {
             filterBranchesList.push(branche);
         }
-       
     }
 
     if (jobForm) {
@@ -1691,6 +1604,8 @@ const createDataForFilters = (
 // create OBJECTS ARRAY from Raw API JSON ///////////////////////////////////////////////
 const reworkData = (rawAPIArray) => {
     rawAPIArray.forEach((el) => {
+
+        let parsedJobLocation;
         if (el.options.job_location) {
             parsedJobLocation = JSON.parse(el.options.job_location);
         }
@@ -1766,8 +1681,6 @@ const loopOnAPI = (jsonData, filterConfigData) => {
         // dropDownBtnStart();
         // pagesContainerStart();
         createFilteredRecordsArray();
-
-        
     }
 };
 
@@ -1814,5 +1727,40 @@ searchBtn.addEventListener("click", createFilteredRecordsArray);
 advancedSearchBar.addEventListener("click", () => {
     advancedContainer.classList.toggle("showed");
     advancedSearchBtn.classList.toggle("rotate180");
-   
 })
+
+const clearAllFiltersLoc = document.querySelector(".clear-all-filters")
+
+clearAllFiltersLoc.addEventListener("click", () => {
+    // selectedOptionsInFilterArray = [[],[],[],[],[],[]];
+    // setClearBtn()
+
+
+    filterListLocArray.forEach((elem, index) => {
+
+        const clearBtn = elem.querySelector(".clear-btn");
+        const filtersQuantityBtn = elem.querySelector(".filters-quantity");
+        const filtersSelectedOptions = elem.querySelector(".selected-options");
+        const filtersListTitle = elem.querySelector(".list-title");
+
+        selectedOptionsInFilterArray[index] = [];
+        clearBtn.style.opacity = "0";
+        elem.querySelectorAll("input").forEach((el) => {
+            el.checked = false;
+        })
+        filtersSelectedOptions.innerText = "";
+        filtersListTitle.classList.remove("mini");
+        filtersQuantityBtn.style.opacity = "0";
+    })
+
+    jobInputLoc.value = "";
+    jobLabelLoc.classList.remove("mini");
+    jobInputLoc.classList.remove("active");
+    jobClearBtnLoc.style.opacity = "0";
+    jobClearBtnLoc.style.display = "none";
+
+    distanceLoc.querySelectorAll("input").forEach((elem) => {
+        elem.checked = false;
+    })
+    distanceListTitleLoc.innerText = "+0 km";
+});
