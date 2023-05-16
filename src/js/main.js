@@ -573,15 +573,11 @@ const createFilteredRecordsArray = () => {
     //     filteredRecordsArray_5 = filteredRecordsArray_4;
     // }
 
-    // // selectedCountry ////////////////
+    // selectedCountry ////////////////
+    let selectedCountry = [];
 
-    // let selectedCountry = [];
-
-    // if (
-    //     filterConfigData.location_country_filter.length 
-    //     // && !filterConfigData.location_visible
-    // ) {
-    //     selectedCountry = filterConfigData.location_country_filter;
+    if (filterConfigData.location_country_filter.length) {
+        selectedCountry = filterConfigData.location_country_filter;
     // } else {
     //     if (locationMarkLoc.checked) {
     //         selectedCountry = Array.from(countriesChildrenLoc)
@@ -596,44 +592,42 @@ const createFilteredRecordsArray = () => {
     //                 }
     //             });
     //     }
-    // }
+    }
 
-    // let filteredRecordsArray_6 = [];
+    let filteredRecordsArray_5 = [];
 
-    // if (
-    //     locationMarkLoc.checked ||
-    //     (filterConfigData.location_country_filter.length 
-    //         // && !filterConfigData.location_visible
-    //         )
-    // ) {
-    //     if (selectedCountry.length) {
-    //         filteredRecordsArray_5.forEach((el, index) => {
-    //             let addFlag = false;
+    if (filterConfigData.location_country_filter.length) {
+        if (selectedCountry.length) {
+            filteredRecordsArray_4.forEach((el) => {
+                let addFlag = false;
 
-    //             selectedCountry.forEach((selectedFiltr) => {
-    //                 if (el.country === selectedFiltr) {
-    //                     addFlag = true;
-    //                 }
-    //             });
+                selectedCountry.forEach((selectedFiltr) => {
+                    if (el.country === selectedFiltr) {
+                        addFlag = true;
+                    }
+                });
 
-    //             if (addFlag) {
-    //                 filteredRecordsArray_6.push(el);
-    //             }
-    //         });
-    //     } else {
-    //         filteredRecordsArray_6 = filteredRecordsArray_5;
-    //     }
-    // } else {
-    //     filteredRecordsArray_6 = filteredRecordsArray_5;
-    // }
+                if (addFlag) {
+                    filteredRecordsArray_5.push(el);
+                }
+            });
+        } else {
+            filteredRecordsArray_5 = filteredRecordsArray_4;
+        }
+    } else {
+        filteredRecordsArray_5 = filteredRecordsArray_4;
+    }
 
-    let filteredRecordsArray_6 = filteredRecordsArray_4;
+    let filteredRecordsArray_6 = filteredRecordsArray_5;
 
     // selectedCity & selectedDistance ////////////////
+
+    console.log(filterConfigData)
     let selectedCity = [];
 
     if (filterConfigData.location_city_filter.length) {
         selectedCity = filterConfigData.location_city_filter;
+        cityLoc.style.display = "none";
     } else {
 
         selectedCity = Array.from(citiesChildrenLoc)
@@ -663,11 +657,17 @@ const createFilteredRecordsArray = () => {
         let max_longi;
 
         selectedCity.forEach((el_city) => {
-            filteredRecordsArray_6.forEach((el_record, index) => {
+            filteredRecordsArray_6.forEach((el_record) => {
                 if (el_city === el_record.city) {
 
                     lati = el_record.lati;
                     longi = el_record.longi;
+
+                    if (filterConfigData.location_distance !== null) {
+                        selectedDistance = filterConfigData.location_distance;
+                        // distanceListTitleLoc.innerText = `+${selectedDistance} km`
+                        distanceLoc.style.display = "none";
+                    }
 
                     min_lati = lati - selectedDistance * 0.009044;
                     max_lati = lati + selectedDistance * 0.009044;
@@ -676,7 +676,7 @@ const createFilteredRecordsArray = () => {
                 }
             });
 
-            filteredRecordsArray_6.forEach((el_record, index) => {
+            filteredRecordsArray_6.forEach((el_record) => {
                 if (
                     el_record.lati <= max_lati &&
                     el_record.lati >= min_lati &&
@@ -799,8 +799,6 @@ const createFilteredRecordsArray = () => {
     setPages(recordsNumber);
     filtersON = true;
     // hideFilter();
-    
-    
 };
 
 const pagesContainerStart = () => {
@@ -855,7 +853,6 @@ const createFilterLists = (filterConfigData) => {
                 </div>
             </li>`
             );
-            
         });
     }
 
@@ -969,7 +966,6 @@ const createFilterLists = (filterConfigData) => {
             );
         });
     }
-
 };
 
 // PAGES /////////////////////////////////////////////////////////////
@@ -986,7 +982,6 @@ const changePage = (pageBtn) => {
         ? createRecordBoxes(filteredRecordsArray_11, firstRecord, lastRecord)
         : createRecordBoxes(allRecordsArray, firstRecord, lastRecord);
     globActivePageNo = parseInt(pageBtn.innerText);
-
 };
 
 let globActivePageNo;
@@ -1469,11 +1464,7 @@ const createDataForFilters = (
         
         if (filterConfigData.location_country_filter.indexOf(country) !== -1) {
             if (filterCountriesList[country]) {
-                if (
-                    filterCountriesList[country].findIndex(
-                        (arr_el) => arr_el.city === city
-                    ) === -1
-                ) {
+                if (filterCountriesList[country].findIndex((arr_el) => arr_el.city === city) === -1) {
                     if (filterConfigData.location_city_filter.length) {
                         if (filterConfigData.location_city_filter.indexOf(city) !== -1) {
                             filterCountriesList[country].push({
@@ -1511,26 +1502,42 @@ const createDataForFilters = (
         }
 
     } else {
-        
+
         if (filterCountriesList[country]) {
-            if (
-                filterCountriesList[country].findIndex(
-                    (arr_el) => arr_el.city === city
-                ) === -1
-            ) {
+            if (filterCountriesList[country].findIndex((arr_el) => arr_el.city === city) === -1) {
+                if (filterConfigData.location_city_filter.length) {
+                    if (filterConfigData.location_city_filter.indexOf(city) !== -1) {
+                        filterCountriesList[country].push({
+                            city: city,
+                            lati: lati,
+                            longi: longi,
+                        });
+                    }
+                } else {
+                    filterCountriesList[country].push({
+                        city: city,
+                        lati: lati,
+                        longi: longi,
+                    });
+                }
+            }
+        } else {
+            filterCountriesList[country] = [];
+            if (filterConfigData.location_city_filter.length) {
+                if (filterConfigData.location_city_filter.indexOf(city) !== -1) {
+                    filterCountriesList[country].push({
+                        city: city,
+                        lati: lati,
+                        longi: longi,
+                    });
+                }
+            } else {
                 filterCountriesList[country].push({
                     city: city,
                     lati: lati,
                     longi: longi,
                 });
             }
-        } else {
-            filterCountriesList[country] = [];
-            filterCountriesList[country].push({
-                city: city,
-                lati: lati,
-                longi: longi,
-            });
         }
     }
 };

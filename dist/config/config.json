@@ -9,6 +9,7 @@
     "branche_filter": [],
     "location_country_filter": [],
     "location_city_filter": [],
+    "location_distance": null,
     "recruitmentType_filter": [],
     "recruitmentType_colorOnly": []
 }
