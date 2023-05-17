@@ -92,6 +92,7 @@ jobClearBtnLoc.addEventListener("click", (e) => {
     jobInputLoc.classList.remove("active");
     jobClearBtnLoc.style.opacity = "0";
     jobClearBtnLoc.style.display = "none";
+    searchBtn.click();
 })
 
 const removePaddingBottomToFilterList = (filterList) => {
@@ -146,6 +147,7 @@ distanceInputsLoc.forEach((elem) => {
     elem.addEventListener("change", () => {
         distanceTitleLoc.innerText = `+${Number(elem.value)} km`;
         distanceTitleLoc.dataset.distance = Number(elem.value);
+        searchBtn.click();
     })
 })
 
@@ -188,6 +190,7 @@ const setClearBtn = () => {
                 filtersSelectedOptions.innerText = "";
                 filtersListTitle.classList.remove("mini");
                 filtersQuantityBtn.style.opacity = "0";
+                searchBtn.click();
             }
         });
     })
@@ -222,6 +225,7 @@ const actionAfterFilterInputChange = (e) => {
     }
 
     filtersSelectedOptionsLoc.innerText = selectedOptionsInFilterArray[indexFilter].join(", ");
+    searchBtn.click();
 }
 
 const addListenerToFilterListsElements = () => {
@@ -622,7 +626,6 @@ const createFilteredRecordsArray = () => {
 
     // selectedCity & selectedDistance ////////////////
 
-    console.log(filterConfigData)
     let selectedCity = [];
 
     if (filterConfigData.location_city_filter.length) {
@@ -696,7 +699,7 @@ const createFilteredRecordsArray = () => {
     let filteredRecordsArray_8 = [];
 
     if (remoteInputLoc.checked || (filterConfigData.remote_filter)) {
-        filteredRecordsArray_7.forEach((el, index) => {
+        filteredRecordsArray_7.forEach((el) => {
             let addFlag = false;
 
             if (el.remote) {
@@ -715,7 +718,7 @@ const createFilteredRecordsArray = () => {
     let filteredRecordsArray_9 = [];
 
     if (relocationInputLoc.checked) {
-        filteredRecordsArray_8.forEach((el, index) => {
+        filteredRecordsArray_8.forEach((el) => {
             let addFlag = false;
 
             if (el.relocation) {
@@ -736,7 +739,7 @@ const createFilteredRecordsArray = () => {
     let searchText = searchInputLoc.value;
 
     if (searchText) {
-        filteredRecordsArray_9.forEach((el, index) => {
+        filteredRecordsArray_9.forEach((el) => {
             let addFlag = false;
 
             let position;
@@ -775,7 +778,7 @@ const createFilteredRecordsArray = () => {
     }
 
     if (selectedRecruitmentType.length !== 0) {
-        filteredRecordsArray_10.forEach((el, index) => {
+        filteredRecordsArray_10.forEach((el) => {
             let addFlag = false;
 
             selectedRecruitmentType.forEach((selectedFiltr) => {
@@ -1257,6 +1260,24 @@ window.addEventListener("resize", () => {
 
 setPagesBtnQuantity();
 
+const filterAwarded = (configFilterArray, awardedRecordsArray, property) => {
+    
+    for (let i = awardedRecordsArray.length-1; i>=0; i--) {
+
+        let findFlag = false;
+        configFilterArray.forEach((element)=>{
+          
+            if (awardedRecordsArray[i][property] === element) {
+                findFlag = true;
+            }
+        })
+
+        if (!findFlag) {
+            awardedRecordsArray.splice(i, 1)
+        }
+    }
+}
+
 // create AWARDED RECORDS BOXES ///////////////////////////////////////////////
 const createAwardedRecordBoxes = (recordsArray, filterConfigData) => {
 
@@ -1622,6 +1643,10 @@ const loopOnAPI = (jsonData, filterConfigData) => {
         // dropDownBtnStart();
         // pagesContainerStart();
         createFilteredRecordsArray();
+        distanceInputsLoc.forEach((elem) => {
+            elem.checked = false;
+        })
+        
     }
 };
 
@@ -1703,3 +1728,25 @@ clearAllFiltersLoc.addEventListener("click", () => {
     distanceListTitleLoc.innerText = "+0 km";
     createFilteredRecordsArray();
 });
+
+jobInputLoc.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      searchBtn.click();
+    }
+});
+
+jobInputLoc.addEventListener("input", () => {
+    if (jobInputLoc.value === "") {
+      searchBtn.click();
+    }
+});
+
+remoteInputLoc.addEventListener("change", () => {
+    searchBtn.click();
+})
+
+relocationInputLoc.addEventListener("change", () => {
+    searchBtn.click();
+})
+

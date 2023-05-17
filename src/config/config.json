@@ -3,15 +3,13 @@
     "remote_visible": true,
     "relocation_visible": true,
     "branche_visible": true,
-    "language_visible": true,
+    "language_visible": false,
     "remote_filter": false,
     "language_filter": [],
     "branche_filter": [],
     "location_country_filter": [],
-    "location_city_filter": [
-        "Kraków"
-    ],
-    "location_distance": 50,
+    "location_city_filter": [],
+    "location_distance": null,
     "recruitmentType_filter": [],
     "recruitmentType_colorOnly": []
 }
