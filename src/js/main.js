@@ -1646,6 +1646,7 @@ const loopOnAPI = (jsonData, filterConfigData) => {
         distanceInputsLoc.forEach((elem) => {
             elem.checked = false;
         })
+        jobInputLoc.value = "";
         
     }
 };
@@ -1733,6 +1734,12 @@ jobInputLoc.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
       searchBtn.click();
+    }
+});
+
+jobInputLoc.addEventListener("blur", () => {
+    if (jobInputLoc.value !== "") {
+        searchBtn.click();
     }
 });
 
