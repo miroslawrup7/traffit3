@@ -3,7 +3,7 @@
     "remote_visible": true,
     "relocation_visible": true,
     "branche_visible": true,
-    "language_visible": false,
+    "language_visible": true,
     "remote_filter": false,
     "language_filter": [],
     "branche_filter": [],
